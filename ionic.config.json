@@ -1,0 +1,7 @@
+{
+  "name": "tokogenz",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
