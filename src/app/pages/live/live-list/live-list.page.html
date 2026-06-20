@@ -1,0 +1,95 @@
+<ion-content [fullscreen]="true" class="home-content">
+
+  <div class="header">
+    <div class="header-left">
+      <h1>Discover Live</h1>
+      <p class="header-subtitle">Temukan produk dan siaran live menarik hari ini.</p>
+    </div>
+  </div>
+  
+  <div class="search-container">
+    <ion-searchbar
+      mode="ios"
+      placeholder="Cari live..."
+      animated="true"
+      [debounce]="500"
+      (ionInput)="onSearch($event)"
+      showClearButton="focus"
+      class="custom-searchbar"
+    ></ion-searchbar>
+  </div>
+
+  <div *ngIf="isLoading" class="ion-text-center ion-padding" style="margin-top: 40px;">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p style="color: #94A3B8; font-size: 13px; margin-top: 8px;">Mencari siaran live...</p>
+  </div>
+
+  <div *ngIf="!isLoading && streams.length === 0" class="ion-text-center ion-padding" style="margin-top: 50px; margin-bottom: 50px;">
+    <div style="font-size: 50px; margin-bottom: 12px;">📺</div>
+    <p style="color: #64748B; font-weight: 700; margin: 0;">Tidak Ada Siaran Live</p>
+    <p style="color: #94A3B8; font-size: 13px; margin-top: 4px; padding: 0 20px;">
+      {{ searchQuery ? 'Siaran live dengan kata kunci tersebut tidak ditemukan.' : 'Saat ini belum ada toko yang melakukan siaran live.' }}
+    </p>
+  </div>
+  
+    <div class="live-grid" *ngIf="!isLoading && streams.length > 0">
+      <div class="live-card" *ngFor="let stream of streams; trackBy: trackByStreamId">
+        <div class="thumbnail-wrapper">
+          <img [src]="stream.thumbnail" [alt]="stream.judul">
+          
+          <div class="badge-live">
+            <span></span>
+            LIVE
+          </div>
+
+          <div class="badge-viewers" *ngIf="stream.viewer_count !== undefined">
+            <ion-icon name="eye"></ion-icon>
+            <span>{{ stream.viewer_count || 0 }}</span>
+          </div>
+        </div>
+
+        <div class="live-info">
+          <h3>{{ stream.judul }}</h3>
+          <p style="font-size: 12px; color: #64748B; margin: 2px 0 8px 0;">
+            {{ stream.seller?.name }}
+          </p>
+          <div class="live-footer">
+            <div class="product-preview"></div>
+            <button class="btn-join" (click)="goToLive(stream.id)">
+              Gabung
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="pagination-container" *ngIf="!isLoading && streams.length > 0 && totalPages > 1">
+    <button 
+      class="pagination-btn" 
+      [disabled]="currentPage === 1" 
+      (click)="goToPage(currentPage - 1)"
+    >
+      Prev
+    </button>
+
+    <div class="pagination-pages">
+      <button 
+        *ngFor="let page of totalPagesArray" 
+        class="page-num" 
+        [class.active]="currentPage === page"
+        (click)="goToPage(page)"
+      >
+        {{ page }}
+      </button>
+    </div>
+
+    <button 
+      class="pagination-btn" 
+      [disabled]="currentPage === totalPages" 
+      (click)="goToPage(currentPage + 1)"
+    >
+      Next
+    </button>
+  </div>
+
+</ion-content>

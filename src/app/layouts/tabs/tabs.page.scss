@@ -1,0 +1,122 @@
+// ==================== FOOTER VARIABEL WARNA (LIGHT MODE) ====================
+$blue-active: #386BF6;
+$text-inactive: #9DB2CE;
+$light-bg: #fff;
+
+.bnb-container {
+  background-color: transparent;
+  width: 100%;
+  height: 75px; /* Disesuaikan dengan tinggi baris menu sejajar */
+  position: relative;
+}
+
+/* Base Background Putih */
+.bnb-rect-bg {
+  position: absolute;
+  height: 75px;
+  left: 0;
+  right: 0;
+  top: 0;
+  // Menggunakan variabel internal card background agar sinkron dengan komponen ionic lainnya
+  background: var(--ion-card-background, #FFFFFF);
+  border-radius: 26px 26px 0px 0px; /* Lengkungan atas */
+  z-index: 2;
+  // Menggunakan step warna ionic untuk shadow agar shadow berubah transparan putih tipis di mode gelap
+  box-shadow: 0px -2px 10px var(--ion-color-step-100, rgba(0, 0, 0, 0.05)); 
+}
+
+/* Layout Sejajar Rata (Flexbox) */
+.bnb-inline-layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around; /* Membagi space antar tab secara merata */
+  align-items: center;
+  position: absolute;
+  height: 75px;
+  left: 0;
+  right: 0;
+  top: 0;
+  padding: 0px 10px;
+  z-index: 4;
+}
+
+/* Struktur Item Navigasi Tunggal */
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 75px; /* Lebar proporsional untuk tiap item */
+  // Menggunakan step warna agar warna tidak aktif otomatis menyesuaikan kontras di dark mode
+  color: var(--ion-color-step-400, $text-inactive);
+  position: relative;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.1s ease;
+
+  ion-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+  }
+
+  span {
+    font-family: 'SF Pro', sans-serif;
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: 400;
+  }
+
+  /* State Menu Aktif (Light Mode Default) */
+  &.active {
+    color: var(--ion-color-primary, $blue-active);
+
+    .active-indicator-line {
+      width: 20px;
+      height: 0px;
+      border: 1.5px solid var(--ion-color-primary, $blue-active);
+      border-radius: 10px;
+      position: absolute;
+      top: 0;
+    }
+
+    span {
+      font-weight: 510;
+    }
+  }
+}
+
+// ==================== PENGATURAN MODE GELAP (DARK MODE) ====================
+// Mixin dikelompokkan agar bekerja baik via Toggle (.dark) maupun System Perangkat
+@mixin dark-bnb-styles {
+  .bnb-rect-bg {
+    // Di mode gelap, disarankan sedikit lebih terang dari background utama (#121212) 
+    // agar terlihat efek elevasi/melayang di bawah. #1e1e1e adalah standar material design.
+    background: #1e1e1e; 
+    box-shadow: 0px -4px 12px rgba(0, 0, 0, 0.3); // Shadow lebih gelap & pekat di mode malam
+  }
+
+  .menu-item {
+    // Teks menu tidak aktif dibuat sedikit abu-abu terang transparan agar tetap terbaca namun tidak mencolok
+    color: rgba(255, 255, 255, 0.45);
+
+    &.active {
+      color: #5383ff; // Warna biru neon menyala khusus dark mode
+      
+      .active-indicator-line {
+        border-color: #5383ff;
+      }
+    }
+  }
+}
+
+// 1. Otomatis Aktif Lewat Preferensi OS HP/Browser
+@media (prefers-color-scheme: dark) {
+  :root {
+    @include dark-bnb-styles;
+  }
+}
+
+// 2. Aktif Lewat Toggle Aplikasi (Suntikan Class .dark ke <body>)
+body.dark {
+  @include dark-bnb-styles;
+}

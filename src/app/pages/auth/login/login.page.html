@@ -1,0 +1,123 @@
+<!-- login.page.html -->
+<ion-content [fullscreen]="true" class="login-content">
+
+  <!-- Background Gradient -->
+  <div class="background-overlay"></div>
+
+  <!-- Wrapper -->
+  <div class="login-wrapper">
+
+    <!-- Brand / Logo -->
+    <div class="brand-section animate-fade-up">
+
+    <!-- Mockup Logo -->
+    <div class="logo-container">
+
+        <div class="logo-icon">
+        TG
+        </div>
+
+        <img
+        src="assets/images/logo.png"
+        alt="TokoGenZ Logo"
+        class="logo-image"
+        />
+
+    </div>
+
+    <p>
+        <b>Belum punya akun? </b> <a href="/register">Daftar Sekarang!</a>
+    </p>
+
+    </div>
+    <!-- Login Card -->
+    <div class="login-card animate-fade-up">
+
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+
+        <!-- Email Field -->
+        <div class="floating-input">
+          <input
+            type="email"
+            formControlName="email"
+            placeholder=" "
+          />
+          <label>Email</label>
+        </div>
+
+        <!-- Validation Email -->
+        <small
+          class="error-text"
+          *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+        >
+          Email tidak valid
+        </small>
+
+        <!-- Password Field -->
+        <div class="floating-input password-wrapper">
+
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            placeholder=" "
+          />
+
+          <label>Password</label>
+
+          <!-- Show Password Button -->
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="togglePassword()"
+          >
+            {{ showPassword ? 'Hide' : 'Show' }}
+          </button>
+
+        </div>
+
+        <!-- Validation Password -->
+        <small
+          class="error-text"
+          *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+        >
+          Password minimal 6 karakter
+        </small>
+
+        <div class="forgot-password">
+          <a (click)="goToForgotPassword()">
+            Lupa Password?
+          </a>
+        </div>
+
+        <!-- Login Button -->
+        <button
+          type="submit"
+          class="login-btn"
+          [disabled]="loginForm.invalid"
+        >
+          Login
+        </button>
+
+      </form>
+
+      <!-- Divider -->
+      <div class="divider">
+        <span>atau lanjut dengan</span>
+      </div>
+
+      <!-- Google OAuth Button -->
+      <button
+        class="google-btn"
+        (click)="onGoogleLogin()"
+      >
+        <img
+          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"
+          alt="Google"
+        />
+        <span>Login dengan Google</span>
+      </button>
+
+    </div>
+  </div>
+
+</ion-content>

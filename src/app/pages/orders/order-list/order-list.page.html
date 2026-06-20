@@ -1,0 +1,165 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+    </ion-buttons>
+    <ion-title>Orders</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="orders-content-wrapper">
+  
+  <!-- BELUM LOGIN -->
+  <div class="login-required-container" *ngIf="!isLoggedIn">
+    <div class="login-required-card animate-fade-in">
+      <div class="decor-circle-1"></div>
+      <div class="decor-circle-2"></div>
+
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-align-items-center">
+          
+          <ion-col size="12" size-md="7" class="login-text-col">
+            <div class="login-content-box">
+              <div class="login-icon-box">
+                <ion-icon name="bag-handle-outline"></ion-icon>
+              </div>
+              <div class="login-info">
+                <h2>Silakan Login Terlebih Dahulu</h2>
+                <p>Masuk ke akun Anda sekarang untuk memantau status pesanan, melihat riwayat transaksi, dan melakukan pembayaran instan.</p>
+              </div>
+            </div>
+          </ion-col>
+
+          <ion-col size="12" size-md="5" class="login-action-col">
+            <div class="login-action-area">
+              <button type="button" class="btn-login-action" (click)="goToLogin()">
+                <ion-icon slot="start" name="log-out-outline" style="transform: scaleX(-1);"></ion-icon>
+                Login Sekarang
+              </button>
+            </div>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </div>
+  </div>
+
+  <!-- SUDAH LOGIN -->
+  <div class="orders-container" *ngIf="isLoggedIn">
+    
+    <!-- GRID LIST KARTU PESANAN -->
+    <div class="orders-list" *ngIf="filteredOrders.length > 0">
+      <div class="order-card" *ngFor="let order of filteredOrders">
+        
+        <div class="card-header">
+          <div class="invoice-info">
+            <ion-icon name="bag-handle-outline" class="bag-icon"></ion-icon>
+            <div>
+              <h3>{{ formatDate(order.date) }}</h3>
+              <p>{{ order.invoice }}</p>
+            </div>
+          </div>
+            <div class="header-right">
+              <span class="status-badge" [ngClass]="order.status">
+                {{ order.statusLabel }}
+              </span>
+            </div>
+        </div>
+
+        <div class="card-body">
+          <div class="main-product-row">
+            <img [src]="order.productImg" [alt]="order.productName" class="product-img" />
+            <div class="product-details">
+              <h4>{{ order.productName }}</h4>
+              <p class="qty-info">{{ order.qtyInfo }}</p>
+              <p class="product-price">{{order.totalPrice | number:'1.0-0'}}</p>
+            </div>
+          </div>
+
+          <!-- List Produk Tambahan -->
+          <div class="expanded-products-list" *ngIf="order.isExpanded">
+            <div class="sub-product-row" *ngFor="let sub of order.subProducts">
+              <img [src]="sub.img" [alt]="sub.name" class="sub-product-img" onerror="this.src='assets/placeholder.png'" />
+              <div class="sub-product-details">
+                <h5>{{ sub.name }}</h5>
+                <p class="sub-qty-info">{{ sub.qtyInfo }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FOOTER KARTU (Sekarang kokoh di luar card-body agar tinggi kartu seragam di tablet) -->
+        <div class="card-footer">
+          <div class="payment-timer" *ngIf="order.status === 'pending'">
+            <small>
+              Batas Pembayaran
+            </small>
+
+            <strong style="">
+              {{ order.remainingTime }}
+            </strong>
+
+          </div>
+          
+          <button 
+            *ngIf="order.hasActionBtn"
+            type="button" 
+            class="btn-action"
+            
+            [ngClass]="{
+              'primary-btn': order.actionBtnType === 'primary',
+              'disabled-btn': order.status === 'cancelled'
+            }"
+            (click)="handleOrderAction(order)">
+
+            {{ order.actionBtnLabel }}
+
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state" *ngIf="filteredOrders.length === 0">
+      <div class="empty-state-inner">
+        <div class="icon-box">
+          <ion-icon name="bag-remove-outline"></ion-icon>
+        </div>
+        <h2>Belum Ada Pesanan</h2>
+        <p>Wah, sepertinya kamu belum memesan apa pun di kategori ini. Yuk, cari produk impianmu sekarang!</p>
+        <a type="button" class="btn-shop-now" href="/tabs/home">
+          Mulai Belanja
+        </a>
+      </div>
+    </div>
+
+  </div>
+</ion-content>
+
+<!-- MODAL QRIS -->
+<ion-modal [isOpen]="isQrModalOpen" (didDismiss)="isQrModalOpen = false" initialBreakpoint="0.6" [breakpoints]="[0, 0.6, 0.8]">
+  <ng-template>
+    <ion-header class="ion-no-border">
+      <ion-toolbar>
+        <ion-title>Pembayaran QRIS</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="isQrModalOpen = false">Tutup</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding ion-text-center">
+      <div style="margin-top: 10px; margin-bottom: 15px;">
+        <p style="font-size: 14px; color: #666; margin: 2px 0;">Invoice: <strong>{{ selectedInvoice }}</strong></p>
+        <p style="font-size: 13px; color: #ff9900; font-weight: bold; margin: 2px 0;">Status: Menunggu Pembayaran</p>
+      </div>
+      
+      <div style="display: flex; justify-content: center; align-items: center; background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); width: 220px; margin: 0 auto;">
+        <img [src]="generatedQrImage" alt="QRIS Code" style="width: 100%; height: auto;" />
+      </div>
+
+      <p style="font-size: 12px; color: #888; margin-top: 15px; padding: 0 20px;">
+        Silakan simpan atau scan QRIS di atas menggunakan aplikasi mobile banking atau e-wallet pilihan Anda untuk menyelesaikan transaksi.
+      </p>
+    </ion-content>
+  </ng-template>
+</ion-modal>

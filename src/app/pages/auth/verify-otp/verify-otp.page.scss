@@ -1,0 +1,138 @@
+// Variabel Warna Kustom Kamu
+$blue-accent: #2563EB;
+$blue-focus: #1E3A8A;
+
+.otp-page {
+  // Menggunakan background sistem Ionic (Otomatis Putih/Gelap)
+  --background: var(--ion-background-color);
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
+    padding: 2.5rem 2rem;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .brand {
+    margin-bottom: 2.5rem;
+    max-width: 320px;
+
+    img {
+      height: 120px; // Menjaga ukuran logo tetap proporsional & bersih
+      width: auto;
+      object-fit: contain;
+      margin-bottom: 1.5rem;
+    }
+
+    h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--ion-text-color);
+      margin: 0 0 0.5rem 0;
+      letter-spacing: -0.5px;
+    }
+
+    p {
+      font-size: 14px;
+      color: var(--ion-color-step-600, #6b7280);
+      line-height: 1.5;
+      margin: 0;
+    }
+  }
+
+  form {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .input-group {
+    text-align: left;
+    margin-bottom: 2rem;
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ion-color-step-700, #4b5563);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    input {
+      width: 100%;
+      height: 52px;
+      padding: 0 1rem;
+      border-radius: 12px;
+      border: 1.5px solid var(--ion-color-step-200, #e5e7eb);
+      background: var(--ion-background-color);
+      color: var(--ion-text-color);
+      font-size: 18px; // Ukuran teks OTP dibuat agak besar agar mudah dibaca
+      font-weight: 600;
+      letter-spacing: 2px; // Memberi jarak antar angka OTP agar terlihat rapi
+      text-align: center; // Posisi teks di tengah gaya input OTP modern
+      box-sizing: border-box;
+      outline: none;
+      transition: all 0.2s ease;
+
+      &::placeholder {
+        font-size: 14px;
+        letter-spacing: normal;
+        font-weight: 400;
+        color: var(--ion-color-step-400, #9ca3af);
+      }
+
+      &:focus {
+        border-color: $blue-accent;
+        box-shadow: 0 0 0 4px rgba($blue-accent, 0.1); // Efek halo halus saat diklik
+      }
+    }
+  }
+
+  .btn-primary {
+    width: 100%;
+    height: 50px;
+    background: $blue-accent;
+    color: #ffffff;
+    border: none;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: none;
+
+    &:active {
+      background: $blue-focus;
+      transform: scale(0.98); // Efek membal halus saat ditekan manusiawi
+    }
+
+    &:disabled {
+      background: var(--ion-color-step-200, #e5e7eb);
+      color: var(--ion-color-step-400, #9ca3af);
+      cursor: not-allowed;
+      transform: none;
+    }
+  }
+
+  .footer-link {
+    margin-top: 2rem;
+
+    a {
+      font-size: 14px;
+      color: $blue-accent;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.2s ease;
+
+      &:active {
+        color: $blue-focus;
+      }
+    }
+  }
+}

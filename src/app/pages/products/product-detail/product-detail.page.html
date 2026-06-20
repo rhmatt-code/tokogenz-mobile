@@ -1,0 +1,95 @@
+<ion-header class="ion-no-border figma-top-appbar">
+  <ion-toolbar class="appbar-toolbar">
+    <ion-buttons slot="start">
+      <ion-button class="appbar-back-btn" (click)="goBack()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="appbar-title-left">Detail Produk</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="detail-content-wrapper">
+  
+  <div *ngIf="isLoading" class="loading-state ion-text-center">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Memuat detail produk...</p>
+  </div>
+
+  <ion-grid class="ion-no-padding tablet-container" *ngIf="!isLoading && product">
+    <ion-row class="animate-fade-in responsive-row">
+      
+      <ion-col size="12" size-md="6" class="col-gallery">
+        <div class="product-gallery">
+          <img [src]="product.images" [alt]="product.name" class="main-gallery-img" />
+        </div>
+      </ion-col>
+
+      <ion-col size="12" size-md="6" class="col-info">
+        <div class="product-info-section">
+          
+          <div class="price-row">
+            <h1 class="product-price">{{ formatRupiah(product.price) }}</h1>
+            <button type="button" class="btn-favorite" (click)="toggleFavorite()" [class.active]="isFavorite">
+              <ion-icon [name]="isFavorite ? 'heart' : 'heart-outline'"></ion-icon>
+            </button>
+          </div>
+
+          <h2 class="product-name">{{ product.name }}</h2>
+
+          <div class="meta-rating-row">
+            <div class="rating-badge">
+              <ion-icon name="star"></ion-icon>
+              <span class="rating-value">{{ product.rating || '5.0' }}</span>
+              <span class="review-count">({{ product.reviewCount || 0 }} Ulasan)</span>
+            </div>
+            <div class="stock-badge" [class.low-stock]="product.stock <= 3">
+              Sisa {{ product.stock }} item
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="store-owner-card" *ngIf="product.store" (click)="goToStoreProfile(product.store.id)">
+            <div class="store-avatar-box">
+              <img [src]="product.store.logo_url || 'assets/images/default-avatar.png'" [alt]="product.store.name" />
+            </div>
+            <div class="store-meta-info">
+              <h4 class="store-name">{{ product.store.name }}</h4>
+              <p class="store-location">
+                <ion-icon name="location-outline"></ion-icon>
+                <span>{{ product.store.location || 'Indonesia' }}</span>
+              </p>
+            </div>
+            <button type="button" class="btn-visit-store" (click)="goToStore()">
+              Kunjungi
+            </button>
+          </div>
+          
+          <div class="divider"></div>
+
+          <div class="description-box">
+            <h3 class="description-title">Deskripsi Produk</h3>
+            <p class="description-text">{{ product.description || 'Tidak ada deskripsi untuk produk ini.' }}</p>
+          </div>
+          
+        </div>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer class="ion-no-border detail-sticky-footer" *ngIf="!isLoading && product">
+  <div class="action-bar-container">
+    <button 
+      type="button" 
+      class="btn-buy-now" 
+      [class.disabled-style]="product.stock <= 0"
+      [disabled]="product.stock <= 0" 
+      (click)="goBuy()">
+      <ion-icon [name]="product.stock > 0 ? 'bag-handle-outline' : 'alert-circle-outline'"></ion-icon>
+      {{ product.stock > 0 ? 'Beli Sekarang' : 'Out of Stock' }}
+    </button>
+  </div>
+</ion-footer>

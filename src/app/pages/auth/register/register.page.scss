@@ -1,0 +1,401 @@
+/* register.page.scss */
+
+/* =========================================================
+   VARIABEL WARNA DASAR (Light Mode Default)
+========================================================= */
+$bg-gradient-light: linear-gradient(180deg, #F8FAFC 0%, #E2E8F0 100%);
+$card-bg-light: rgba(255, 255, 255, 0.75);
+$card-border-light: rgba(15, 23, 42, 0.08);
+$input-bg-light: rgba(15, 23, 42, 0.03);
+$input-border-light: rgba(15, 23, 42, 0.1);
+$text-main-light: #0F172A;
+$text-muted-light: #64748B;
+$blue-accent: #2563EB;
+$blue-focus: #1E3A8A;
+
+/* =========================================================
+   Background utama halaman register (Light Mode)
+========================================================= */
+.register-content {
+  --background: #{$bg-gradient-light};
+  position: relative;
+  overflow: hidden;
+}
+
+/* Overlay glow biru lembut */
+.background-overlay {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: rgba(37, 99, 235, 0.12);
+  filter: blur(120px);
+  top: -100px;
+  left: -100px;
+  z-index: 0;
+}
+
+/* Wrapper utama konten */
+.register-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Section brand/logo text */
+.brand-section {
+  text-align: center;
+  margin-bottom: 28px;
+
+  h1 {
+    color: $text-main-light;
+    font-size: 34px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: $text-muted-light;
+    font-size: 14px;
+    line-height: 1.5;
+    position: relative;
+    z-index: 10;
+  }
+
+  a {
+    color: $blue-accent;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.logo-icon {
+  display: none;
+}
+
+.logo-image {
+  display: block;
+  border-radius: 20px;
+  width: 160px; /* Diperkecil sedikit agar lebih proporsional */
+  height: 160px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+/* Card register dengan efek Glassmorphism Terang */
+.register-card {
+  width: 100%;
+  max-width: 420px;
+  background: $card-bg-light;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid $card-border-light;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 20px 40px -5px rgba(15, 23, 42, 0.1);
+}
+
+/* Floating input bergaya cerah */
+.floating-input {
+  position: relative;
+  margin-bottom: 20px;
+
+  input {
+    width: 100%;
+    height: 58px;
+    background: $input-bg-light;
+    border: 1px solid $input-border-light;
+    border-radius: 12px;
+    padding: 20px 16px 0 16px;
+    color: $text-main-light;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.25s ease;
+  }
+
+  /* Efek focus saat kolom di-klik */
+  input:focus {
+    border-color: $blue-accent;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+    background: #FFFFFF;
+  }
+
+  /* Floating label */
+  label {
+    position: absolute;
+    left: 16px;
+    top: 18px;
+    color: $text-muted-light;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    font-size: 14px;
+  }
+
+  /* Saat input focus / ada isi */
+  input:focus + label,
+  input:not(:placeholder-shown) + label {
+    top: 10px;
+    font-size: 11px;
+    color: $blue-accent;
+    font-weight: 600;
+  }
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+/* Tombol show password */
+.toggle-password {
+  position: absolute;
+  right: 14px;
+  top: 18px;
+  background: transparent;
+  border: none;
+  color: $blue-accent;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 5;
+
+  &:hover {
+    color: $blue-focus;
+  }
+}
+
+/* Error text validation */
+.error-text {
+  display: block;
+  color: #DC2626; /* Merah kontras tinggi */
+  margin-top: -10px;
+  margin-bottom: 14px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Tombol register utama */
+.register-btn {
+  width: 100%;
+  height: 54px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #1E3A8A, #2563EB);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 8px;
+  transition: all 0.25s ease;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.45);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* Divider OAuth */
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 24px 0;
+
+  span {
+    color: $text-muted-light;
+    font-size: 13px;
+    margin: 0 12px;
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(15, 23, 42, 0.08);
+  }
+}
+
+.terms-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 1.5rem 0 1rem 0;
+  text-align: left;
+
+  // Ukuran checkbox bawaan standar yang pas di jari
+  input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    cursor: pointer;
+    accent-color: $blue-accent; // Mengubah warna isi checkbox saat dicentang (didukung browser modern)
+  }
+
+  label {
+    font-size: 13.5px;
+    line-height: 1.4;
+    color: var(--ion-color-step-600, #4b5563);
+    cursor: pointer;
+    user-select: none;
+
+    a {
+      color: $blue-accent;
+      text-decoration: underline; // Gaya hyperlink konvensional agar mudah dikenali pengguna
+      font-weight: 500;
+      transition: color 0.2s ease;
+
+      &:hover, &:active {
+        color: $blue-focus;
+      }
+    }
+  }
+}
+
+/* Tombol Google OAuth Cerah */
+.google-btn {
+  width: 100%;
+  height: 56px;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: $text-main-light;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+
+  img {
+    width: 22px;
+    height: 22px;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    background: #F8FAFC;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+  }
+}
+
+/* Animations */
+.animate-fade-up {
+  animation: fadeUp 0.7s ease forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   AUTOMATIC DARK MODE VIA OS PREFERENCE (Kode Asli Anda)
+========================================================= */
+@media (prefers-color-scheme: dark) {
+  .register-content {
+    --background: linear-gradient(180deg, #0F172A 0%, #000000 100%) !important;
+  }
+
+  .background-overlay {
+    background: rgba(30, 58, 138, 0.25) !important;
+  }
+
+  .brand-section {
+    h1 { color: #FFFFFF !important; }
+    p { color: rgba(255, 255, 255, 0.7) !important; }
+    a { color: #60A5FA !important; }
+  }
+
+  .logo-image {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .register-card {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45) !important;
+  }
+
+  .floating-input {
+    input {
+      background: rgba(255, 255, 255, 0.04) !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+      color: #FFFFFF !important;
+    }
+
+    input:focus {
+      border-color: #1E3A8A !important;
+      box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.15) !important;
+      background: rgba(255, 255, 255, 0.06) !important;
+    }
+
+    label {
+      color: rgba(255, 255, 255, 0.5) !important;
+    }
+
+    input:focus + label,
+    input:not(:placeholder-shown) + label {
+      color: #60A5FA !important;
+    }
+  }
+
+  .toggle-password {
+    color: #93C5FD !important;
+    &:hover { color: #60A5FA !important; }
+  }
+
+  .error-text {
+    color: #F87171 !important;
+  }
+
+  .register-btn {
+    box-shadow: 0 8px 24px rgba(30, 58, 138, 0.35) !important;
+    &:hover { box-shadow: 0 12px 30px rgba(30, 58, 138, 0.45) !important; }
+  }
+
+  .divider {
+    span { color: rgba(255, 255, 255, 0.5) !important; }
+    &::before, &::after { background: rgba(255, 255, 255, 0.08) !important; }
+  }
+
+  .google-btn {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25) !important;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08) !important;
+    }
+  }
+}

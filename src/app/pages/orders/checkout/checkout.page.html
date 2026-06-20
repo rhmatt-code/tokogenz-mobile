@@ -1,0 +1,135 @@
+<ion-header class="ion-no-border figma-checkout-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/home" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Checkout</ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="btn-cart-top">
+        <ion-icon slot="icon-only" name="bag-check-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="checkout-content-wrapper">
+  <ion-grid class="checkout-grid">
+    <ion-row>
+      
+      <ion-col size="12" size-md="7" class="checkout-col-left">
+        
+        <div class="checkout-card card-address">
+          <div class="card-title-row">
+            <div class="title-left">
+              <ion-icon name="location-outline" class="icon-blue"></ion-icon>
+              <span>Alamat Pengiriman</span>
+            </div>
+          </div>
+          <div class="address-details" *ngIf="address?.address">
+            <p class="user-meta"><strong>{{ address.name }}</strong></p>
+            <p class="address-text">{{ address.address }}</p>
+          </div>
+        </div>
+
+        <div class="section-divider-title">
+          <ion-icon name="receipt-outline"></ion-icon>
+          <span>Ringkasan Pesanan</span>
+        </div>
+
+        <div class="checkout-card card-store-group" *ngIf="product">
+          <div class="product-item-row">
+            <div class="product-thumbnail">
+              <img [src]="product.images" [alt]="product.name">
+            </div>
+
+            <div class="product-info-box">
+              <h4 class="product-name">{{ product.name }}</h4>
+              <div class="price-qty-row">
+                <span class="product-price">{{ formatRupiah(product.price) }}</span>
+              </div>
+
+              <div class="quantity-control">
+                <button type="button" class="qty-btn" (click)="decreaseQty()">-</button>
+                <span class="qty-value">{{ quantity }}</span>
+                <button type="button" class="qty-btn" (click)="increaseQty()" [disabled]="quantity >= product.stock">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </ion-col>
+
+      <ion-col size="12" size-md="5" class="checkout-col-right">
+        
+        <div class="checkout-card card-billing-summary">
+          <div class="billing-row">
+            <span>Harga Produk</span>
+            <span class="val">{{ formatRupiah(subtotal) }}</span>
+          </div>
+
+          <div class="billing-row">
+            <span>Biaya Pengiriman</span>
+            <span class="val">Rp 0</span>
+          </div>
+
+          <div class="billing-row">
+            <span>Biaya Jasa Aplikasi</span>
+            <span class="val">{{ formatRupiah(serviceFee || 1000) }}</span>
+          </div>
+
+          <div class="billing-row total-row-summary">
+            <span>Total Pembayaran</span>
+            <span class="val-total">{{ formatRupiah(totalPayment) }}</span>
+          </div>
+        </div>
+        
+        <div class="checkout-card payment-card" *ngIf="qrString">
+          <h3>Pembayaran QRIS</h3>
+
+          <div class="countdown-box">
+            <div class="countdown-label">Batas Waktu Pembayaran</div>
+            <div class="countdown-value" [class.expired]="paymentExpired">
+              {{ remainingTime }}
+            </div>
+          </div>
+          
+          <p class="payment-status">
+            Status:
+            <strong [style.color]="paymentExpired ? '#EF4444' : '#10B981'">
+              {{ paymentExpired ? 'Expired' : transactionStatus }}
+            </strong>
+          </p>
+
+          <div class="qr-wrapper">
+            <img [src]="qrImage" alt="QRIS" *ngIf="qrImage" />
+          </div>
+
+          <div class="invoice-box">
+            <p>Invoice: {{ invoiceNumber }}</p>
+          </div>
+
+          <div class="waiting-info">Menunggu pembayaran...</div>
+        </div>
+
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="checkout-sticky-footer">
+    <div class="footer-container">
+      <div class="price-total-preview">
+        <p class="lbl">TOTAL HARGA</p>
+        <h3 class="price-val">{{ formatRupiah(totalPayment) }}</h3>
+      </div>
+      <button 
+        class="btn-place-order" 
+        [disabled]="isSubmitting || qrString" 
+        (click)="placeOrder()">
+        {{ qrString ? 'Selesaikan Pembayaran' : 'Place order' }}
+      </button>
+    </div>
+  </div>
+</ion-footer>

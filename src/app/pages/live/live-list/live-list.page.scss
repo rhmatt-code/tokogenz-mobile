@@ -1,0 +1,480 @@
+ion-content {
+  // Kita paksa ubah variabel penampung internal bawaan Ionic
+  --background: var(--ion-background-color, #ffffff) !important;
+  background: var(--ion-background-color, #ffffff) !important;
+
+  // Tembus bagian scroll container bawaan shadow DOM ionic
+  &::part(background) {
+    background: var(--ion-background-color, #ffffff) !important;
+  }
+  &::part(scroll) {
+    background: var(--ion-background-color, #ffffff) !important;
+  }
+}
+
+@mixin force-dark-override {
+  ion-content {
+    --background: #121212 !important;
+    background: #121212 !important;
+    &::part(background) { background: #121212 !important; }
+    &::part(scroll) { background: #121212 !important; }
+  }
+  .profile-content-wrapper {
+    --background: #121212 !important;
+    background: #121212 !important;
+  }
+  .profile-header-card, .stat-box, .menu-item-row {
+    background: #1e1e1e !important;
+    --background: #1e1e1e !important;
+    &::part(native) { background: #1e1e1e !important; }
+  }
+  .menu-item-row .icon-wrapper {
+    background: rgba(59, 130, 246, 0.15) !important;
+    ion-icon { color: #3b82f6 !important; }
+  }
+  .stat-box h3 { color: #3b82f6 !important; }
+}
+
+// Eksekusi jika body memiliki class .dark (Dari Theme Service aplikasi)
+:host-context(.dark), body.dark, html.dark {
+  @include force-dark-override;
+}
+
+// Eksekusi jika preferensi OS adalah dark mode
+@media (prefers-color-scheme: dark) {
+  @include force-dark-override;
+}   
+
+// =========================================================
+// VARIABEL UTAMA
+// =========================================================
+$navy-main: #1E3A8A;
+$bg-light: #F3F4F6;
+$text-dark: #000000;
+$text-muted: #666666;
+
+.home-content {
+  --background: var(--ion-background-color, #f5f7fb);
+
+  &::part(scroll) {
+    padding: 18px 18px 120px;
+  }
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 16px 12px 16px;
+  background: transparent;
+
+  .header-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--ion-text-color, #1c1c1e);
+      margin: 0;
+    }
+
+    .header-subtitle {
+      font-size: 13px;
+      color: var(--ion-color-step-400, #8e8e93);
+      margin: 0;
+    }
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: 12px;
+
+    .profile-avatar {
+      width: 44px;
+      height: 44px;
+      border: 2px solid var(--ion-card-background, #fff);
+      box-shadow: 0 4px 10px var(--ion-color-step-100, rgba(0, 0, 0, 0.1));
+      cursor: pointer;
+      transition: transform 0.2s ease;
+
+      &:active { transform: scale(0.95); }
+    }
+
+    .btn-login {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 14px;
+      height: 34px;
+      
+      background: var(--ion-color-primary, $navy-main);
+      color: var(--ion-color-primary-contrast, white);
+      font-size: 13px;
+      font-weight: 600;
+      
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
+
+      ion-icon { font-size: 16px; }
+
+      &:active {
+        background: var(--ion-color-step-200, #e5e5ea);
+        transform: scale(0.96);
+      }
+    }
+  }
+}
+
+/* =========================================================
+   SEARCHBAR
+========================================================= */
+.custom-searchbar {
+  padding: 0;
+  margin-bottom: 24px;
+
+  --background: var(--ion-card-background, #ffffff);
+  --border-radius: 18px;
+  --box-shadow: 0 4px 18px var(--ion-color-step-50, rgba(0, 0, 0, 0.05));
+  --placeholder-color: var(--ion-color-step-400, #9ca3af);
+  --icon-color: var(--ion-color-step-400, #9ca3af);
+  color: var(--ion-text-color);
+}
+
+/* =========================================================
+   CATEGORY
+========================================================= */
+.category-section {
+  margin-bottom: 30px;
+}
+
+.section-header, .category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+
+  h2 {
+    margin: 0; padding: 0;
+    font-size: 14px; font-weight: 800; line-height: 1;
+    color: var(--ion-color-step-700, #374151);
+    letter-spacing: .5px;
+  }
+
+  a {
+    margin: 0; padding: 0;
+    display: flex; align-items: center;
+    font-size: 12px; font-weight: 700; line-height: 1;
+    color: var(--ion-color-primary, $navy-main);
+    text-decoration: none;
+  }
+}
+
+.category-scroll {
+  display: flex; gap: 12px; overflow-x: auto;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.category {
+  padding: 11px 20px;
+  border-radius: 999px;
+  background: var(--ion-card-background, #ffffff);
+  border: 1px solid var(--ion-color-step-150, #ececec);
+  white-space: nowrap;
+  font-size: 14px; font-weight: 700;
+  color: var(--ion-color-step-600, #4b5563);
+}
+
+.category.active {
+  background: var(--ion-color-primary, $navy-main);
+  border-color: var(--ion-color-primary, $navy-main);
+  color: var(--ion-color-primary-contrast, white);
+}
+
+/* =========================================================
+   LIVE SECTION & CARD
+========================================================= */
+.live-section {
+  margin-bottom: 34px;
+}
+
+.live-title {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 18px;
+  h2 {
+    margin: 0; font-size: 26px; font-weight: 900;
+    color: var(--ion-text-color, #111827);
+  }
+}
+
+.live-dot {
+  width: 10px; height: 10px; border-radius: 50%; background: #ef4444;
+}
+
+.live-list {
+  display: flex; flex-direction: column; gap: 18px;
+}
+
+.live-card {
+  background: var(--ion-card-background, #ffffff);
+  border-radius: 24px; overflow: hidden;
+  box-shadow: 0 8px 24px var(--ion-color-step-50, rgba(0, 0, 0, 0.05));
+  margin-bottom: 10px;
+  border: 1px solid var(--ion-color-step-100, transparent);
+}
+
+.thumbnail-wrapper {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 8px; // Sesuaikan dengan desain TokoGenZ
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  // Gaya default badge LIVE Anda (pastikan posisinya top & left)
+  .badge-live {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #ff4961; // Merah khas Live
+    color: #ffffff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+
+    span {
+      width: 6px;
+      height: 6px;
+      background: #ffffff;
+      border-radius: 50%;
+      display: inline-block;
+    }
+  }
+
+  // Gaya untuk badge Viewers tepat di sebelah kanan badge LIVE
+  .badge-viewers {
+    position: absolute;
+    top: 8px;
+    /* Geser posisi left agar berada tepat di sebelah kanan badge LIVE */
+    /* Jika badge LIVE lebarnya sekitar 52px, maka 8px + 52px + 6px (jarak) = 66px */
+    left: 66px; 
+    z-index: 2;
+    
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(0, 0, 0, 0.5); // Hitam transparan yang elegan
+    color: #ffffff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+
+    ion-icon {
+      font-size: 12px;
+      color: #ffffff;
+    }
+  }
+}
+
+/* BADGES */
+.badge-live, .viewer-count {
+  position: absolute; top: 14px; padding: 7px 12px; border-radius: 12px;
+  font-size: 11px; font-weight: 700; color: white;
+}
+
+.badge-live {
+  left: 14px; background: #dc2626; display: flex; align-items: center; gap: 6px;
+  span { width: 7px; height: 7px; border-radius: 50%; background: white; }
+}
+
+.viewer-count {
+  left: 90px; background: rgba(0, 0, 0, 0.55);
+}
+
+/* LIVE INFO */
+.live-info {
+  padding: 18px;
+  h3 {
+    margin: 0; font-size: 20px; font-weight: 800; line-height: 1.4;
+    color: var(--ion-text-color, #111827);
+  }
+}
+
+.live-footer {
+  margin-top: 18px; display: flex; justify-content: space-between; align-items: center;
+}
+
+/* PRODUCT PREVIEW INSIDE LIVE CARD */
+.product-preview {
+  display: flex; align-items: center;
+}
+
+.preview, .preview-more {
+  width: 46px; height: 46px; border-radius: 14px;
+}
+
+.preview {
+  overflow: hidden; margin-right: -10px;
+  border: 3px solid var(--ion-card-background, #ffffff);
+  img { width: 100%; height: 100%; object-fit: cover; }
+}
+
+.preview-more {
+  margin-left: 14px; display: flex; align-items: center; justify-content: center;
+  background: var(--ion-color-step-100, #f3f4f6);
+  font-size: 13px; font-weight: 800;
+  color: var(--ion-color-step-700, #374151);
+}
+
+.btn-join {
+  border: none; padding: 12px 22px; border-radius: 14px;
+  background: var(--ion-color-primary, $navy-main);
+  color: var(--ion-color-primary-contrast, white);
+  font-size: 13px; font-weight: 700; cursor: pointer;
+}
+
+
+/* =========================================================
+   PENGUNCIAN ATURAN WARNA GELAP (TERPUSAT)
+========================================================= */
+@mixin dark-home-v2-overrides {
+  // Ganti warna teks link "Lihat Semua" menjadi biru neon terang
+  .section-header a, .category-header a {
+    color: var(--ion-color-primary, #5383ff) !important;
+  }
+
+  // Berikan border pembatas yang halus di sekeliling kartu agar dimensinya tegas
+  .live-card, .product-card {
+    border-color: var(--ion-color-step-150, #2a2a2a) !important;
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  // Tombol aksi dengan background biru primer teksnya dibalik menjadi gelap murni
+  .btn-login, .btn-join, .product-footer button, .category.active {
+    color: #121212 !important;
+    font-weight: 700;
+  }
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 32px 16px;
+
+  .pagination-btn {
+    background: var(--ion-card-background, #ffffff);
+    color: var(--ion-color-primary, #1E3A8A);
+    border: 1px solid rgba(var(--ion-text-color-rgb, "0,0,0"), 0.08);
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  .pagination-pages {
+    display: flex;
+    gap: 6px;
+
+    .page-num {
+      background: var(--ion-card-background, #ffffff);
+      color: var(--ion-text-color, #222428);
+      border: 1px solid rgba(var(--ion-text-color-rgb, "0,0,0"), 0.08);
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &.active {
+        background: var(--ion-color-primary, #1E3A8A);
+        color: var(--ion-color-primary-contrast, #ffffff);
+        border-color: var(--ion-color-primary, #1E3A8A);
+      }
+    }
+  }
+}
+
+body.dark { @include dark-home-v2-overrides; }
+@media (prefers-color-scheme: dark) { :root { @include dark-home-v2-overrides; } }
+
+/* =========================================================
+   RESPONSIVE TABLET MODE OVERRIDES (Min-width: 768px)
+========================================================= */
+@media (min-width: 768px) {
+  // 1. Berikan ruang padding ekstra kiri & kanan pada layout utama tablet agar tidak terlalu rapat ke pinggir screen
+  .home-content {
+    &::part(scroll) {
+      padding: 24px 40px 120px; 
+    }
+  }
+
+  // 2. Batasi lebar maksimal header dan searchbar agar proporsional di tengah layar
+  .header, .search-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .search-container {
+    margin-bottom: 32px;
+  }
+
+  // 3. Mengubah list ke bawah menjadi sistem Grid Multi-Kolom
+  .live-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Default tablet: 2 kolom */
+    gap: 24px; /* Jarak antar kartu lebih renggang dan lega */
+    max-width: 1200px;
+    margin: 0 auto 24px auto;
+  }
+
+  // 4. Penyesuaian aspek rasio thumbnail di tablet agar seragam
+  .thumbnail-wrapper {
+    height: 220px; /* Menjaga tinggi card tetap ideal */
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  // 5. Jika layar tablet sangat lebar / mode landscape (iPad Pro / Desktop mini)
+  @media (min-width: 1024px) {
+    .live-grid {
+      grid-template-columns: repeat(3, 1fr); /* Berubah otomatis menjadi 3 kolom */
+    }
+  }
+}

@@ -1,0 +1,35 @@
+<ion-content [fullscreen]="true" class="verify-content">
+
+  <div class="verify-container">
+    
+    <div class="header-section">
+      <div class="icon-avatar">
+        <ion-icon name="mail-open-outline"></ion-icon>
+      </div>
+      <h1>Cek Email Anda</h1>
+      <p class="subtitle">
+        Kami telah mengirimkan link verifikasi ke <span class="highlight-email">{{ email }}</span>
+      </p>
+    </div>
+
+    <div class="instruction-section">
+      <p>
+        Silakan klik link di dalam email tersebut untuk mengaktifkan akun. 
+        Jangan lupa periksa folder <strong>Spam</strong> jika tidak menemukannya di kotak masuk.
+      </p>
+    </div>
+
+    <div class="action-section">
+      <ion-button expand="block" mode="ios" class="main-btn" (click)="goToLogin()">
+        Sudah Verifikasi? Masuk di Sini
+      </ion-button>
+      
+      <p class="resend-text">
+        Belum menerima email? 
+        <button class="link-btn" (click)="resendEmail()">Kirim ulang</button>
+      </p>
+    </div>
+
+  </div>
+
+</ion-content>

@@ -1,0 +1,177 @@
+<!-- register.page.html -->
+<ion-content [fullscreen]="true" class="register-content">
+
+  <!-- Background Gradient -->
+  <div class="background-overlay"></div>
+
+  <!-- Wrapper -->
+  <div class="register-wrapper">
+
+    <!-- Brand / Logo -->
+    <div class="brand-section animate-fade-up">
+
+      <!-- Mockup Logo -->
+      <div class="logo-container">
+        <div class="logo-icon">
+          TG
+        </div>
+        <img
+          src="assets/images/logo.png"
+          alt="TokoGenZ Logo"
+          class="logo-image"
+        />
+      </div>
+
+      <p>
+        <b>Sudah punya akun ? </b> <a href="/login">Masuk Sekarang!</a>
+      </p>
+
+    </div>
+
+    <!-- Register Card -->
+    <div class="register-card animate-fade-up">
+
+      <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+
+        <!-- Nama Toko Field -->
+        <div class="floating-input">
+          <input
+            type="text"
+            formControlName="namaToko"
+            placeholder=" "
+          />
+          <label>Name</label>
+        </div>
+
+        <!-- Validation Nama Toko -->
+        <small
+          class="error-text"
+          *ngIf="registerForm.get('namaToko')?.touched && registerForm.get('namaToko')?.invalid"
+        >
+          The name must be filled in
+        </small>
+
+        <!-- Email Field -->
+        <div class="floating-input">
+          <input
+            type="email"
+            formControlName="email"
+            placeholder=" "
+          />
+          <label>Email</label>
+        </div>
+
+        <!-- Validation Email -->
+        <small
+          class="error-text"
+          *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid"
+        >
+          Emial is invalid
+        </small>
+
+        <!-- Password Field -->
+        <div class="floating-input password-wrapper">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            placeholder=" "
+          />
+          <label>Password</label>
+
+          <!-- Show Password Button -->
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="togglePassword()"
+          >
+            {{ showPassword ? 'Hide' : 'Show' }}
+          </button>
+        </div>
+
+        <!-- Validation Password -->
+        <small
+          class="error-text"
+          *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid"
+        >
+          Password of at least 6 characters
+        </small>
+
+        <!-- Konfirmasi Password Field -->
+        <div class="floating-input password-wrapper">
+          <input
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            formControlName="confirmPassword"
+            placeholder=" "
+          />
+          <label>Confirm Password</label>
+
+          <!-- Show Confirm Password Button -->
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="toggleConfirmPassword()"
+          >
+            {{ showConfirmPassword ? 'Hide' : 'Show' }}
+          </button>
+        </div>
+
+        <!-- Validation Konfirmasi Password -->
+        <small
+          class="error-text"
+          *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.hasError('mismatch')"
+        >
+          Confirm password does not match
+        </small>
+        <div class="terms-container">
+          <input 
+            type="checkbox" 
+            id="agreeTerms"
+            formControlName="agreeToTerms"
+          />
+          <label for="agreeTerms">
+            Saya menyetujui 
+            <a href="https://tokogenz.campusjaya.site/terms" target="_blank">Syarat & Ketentuan</a> 
+            dan 
+            <a href="https://tokogenz.campusjaya.site/privacy-policy" target="_blank">Kebijakan Privasi</a>.
+          </label>
+        </div>
+
+        <small
+          class="error-text"
+          *ngIf="registerForm.get('agreeToTerms')?.touched && registerForm.get('agreeToTerms')?.invalid"
+        >
+          Anda harus menyetujui Syarat dan Ketentuan untuk melanjutkan.
+        </small>
+
+        <!-- Register Button -->
+        <button
+          type="submit"
+          class="register-btn"
+          [disabled]="registerForm.invalid || loading"
+        >
+          {{ loading ? 'Memproses...' : 'Register' }}
+        </button>
+
+      </form>
+
+      <!-- Divider -->
+      <div class="divider">
+        <span>Atau daftar dengan</span>
+      </div>
+
+      <!-- Google OAuth Button -->
+      <button
+        class="google-btn"
+        (click)="onGoogleRegister()"
+      >
+        <img
+          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"
+          alt="Google"
+        />
+        <span>Google</span>
+      </button>
+
+    </div>
+  </div>
+
+</ion-content>

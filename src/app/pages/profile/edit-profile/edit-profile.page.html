@@ -1,0 +1,86 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/profile" text=""></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Edit Profile</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="saveProfile()" [disabled]="isSaving" class="btn-save-nav">
+        Simpan
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding-horizontal">
+
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </div>
+
+  <div *ngIf="!isLoading && user">
+    
+    <div class="edit-avatar-container">
+      <div class="avatar-wrapper">
+        <img 
+          [src]="previewImage ? previewImage : (user?.logo ? 'https://tokogenz.campusjaya.site/storage/' + user.logo : 'assets/images/default-avatar.png')" 
+          alt="Profile Logo" 
+          class="profile-preview-img" 
+        />
+        <input type="file" id="fileInput" accept="image/*" (change)="onFileSelected($event)" style="display: none;" />
+        <label for="fileInput" class="upload-overlay-btn">
+          <ion-icon name="camera"></ion-icon>
+        </label>
+      </div>
+      <p class="upload-hint">Ketuk ikon kamera untuk mengubah foto toko</p>
+    </div>
+
+    <form class="profile-form-box">
+      
+      <div class="input-group-custom">
+        <label class="form-label">Nama User</label>
+        <ion-item lines="none" class="custom-input-item">
+          <ion-icon name="storefront-outline" slot="start" class="input-icon"></ion-icon>
+          <ion-input 
+            type="text" 
+            [(ngModel)]="user.name" 
+            name="name" 
+            placeholder="Masukkan nama toko">
+          </ion-input>
+        </ion-item>
+      </div>
+
+      
+      <div class="input-group-custom">
+        <label class="form-label">Alamat Lengkap</label>
+        <ion-item lines="none" class="custom-input-item align-start">
+          <ion-icon name="location-outline" slot="start" class="input-icon spacing-top-icon"></ion-icon>
+          <ion-textarea 
+            [(ngModel)]="user.address" 
+            name="address" 
+            placeholder="Masukkan alamat lengkap pengiriman/toko"
+            [autoGrow]="true"
+            rows="2">
+          </ion-textarea>
+        </ion-item>
+      </div>
+
+      <div class="input-group-custom read-only-group">
+        <label class="form-label">Alamat Email (Akun)</label>
+        <ion-item lines="none" class="custom-input-item disabled-item">
+          <ion-icon name="mail-outline" slot="start" class="input-icon"></ion-icon>
+          <ion-input 
+            type="email" 
+            [value]="user?.email" 
+            [disabled]="true">
+          </ion-input>
+        </ion-item>
+      </div>
+
+    </form>
+
+  </div>
+
+</ion-content>

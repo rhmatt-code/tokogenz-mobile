@@ -1,0 +1,118 @@
+<ion-header class="ion-no-border figma-top-appbar">
+  <ion-toolbar class="custom-toolbar">
+    <ion-title>Profil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="profile-content-wrapper">
+
+  <ion-grid class="ion-no-padding tablet-profile-container">
+    
+    <ion-row class="responsive-row" *ngIf="isLoggedIn">
+      
+      <ion-col size="12" size-md="5" class="col-profile-left">
+        <div class="profile-header-card animate-fade-in">
+          <div class="avatar-container">
+            <div class="avatar-inner-ring">
+              <img [src]="user && user.logo ? (user.logo.startsWith('http') ? user.logo : 'https://tokogenz.campusjaya.site/storage/' + user.logo) : 'assets/images/default-avatar.png'" alt="Profile">
+            </div>
+          </div>
+          <div class="user-info">
+            <h2>{{ user?.name }}</h2>
+            <p>{{ user?.email }}</p>
+          </div>
+        </div>
+
+        <div class="stats-container animate-fade-in">
+          <div class="stat-box">
+            <h3>{{ totalOrders || 0 }}</h3>
+            <p>Pesanan</p>
+          </div>
+        </div>
+      </ion-col>
+
+      <ion-col size="12" size-md="7" class="col-profile-right">
+        <div class="menu-list-wrapper">
+          <ion-list lines="none" class="custom-menu-list">
+            <ion-item button [routerLink]="['/tabs/edit-profile', user?.id]" routerDirection="forward" class="menu-item-row">
+              <div class="icon-wrapper" slot="start">
+                <ion-icon name="settings-outline"></ion-icon>
+              </div>
+              <ion-label class="menu-label">Pengaturan Akun</ion-label>
+              <ion-icon slot="end" name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+            </ion-item>
+          </ion-list>
+          <ion-list lines="none" class="custom-menu-list">
+            <ion-item button href="https://tokogenz.campusjaya.site/privacy-policy" routerDirection="forward" class="menu-item-row">
+              <div class="icon-wrapper" slot="start">
+                <ion-icon name="shield-checkmark-outline"></ion-icon>
+              </div>
+              <ion-label class="menu-label">Privacy Policy</ion-label>
+              <ion-icon slot="end" name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+            </ion-item>
+          </ion-list>
+          <ion-list lines="none" class="custom-menu-list">
+            <ion-item button href="https://tokogenz.campusjaya.site/terms" routerDirection="forward" class="menu-item-row">
+              <div class="icon-wrapper" slot="start">
+                <ion-icon name="reader-outline"></ion-icon>
+              </div>
+              <ion-label class="menu-label">Terms and Condition</ion-label>
+              <ion-icon slot="end" name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+            </ion-item>
+          </ion-list>
+        </div>
+
+        <div class="logout-action-area">
+          <ion-button id="open-logout-alert" expand="block" fill="clear" class="btn-logout" (click)="logout()">
+            <ion-icon slot="start" name="log-out-outline"></ion-icon>
+            Keluar Akun
+          </ion-button>
+        </div>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center" *ngIf="!isLoggedIn">
+      <ion-col size="12" size-md="10" size-lg="8">
+        
+        <div class="guest-card animate-fade-in">
+          <div class="decorative-circle-1"></div>
+          <div class="decorative-circle-2"></div>
+
+          <ion-grid class="ion-no-padding">
+            <ion-row class="ion-align-items-center">
+              
+              <ion-col size="12" size-md="7" class="guest-text-col">
+                <div class="guest-content-box">
+                  <div class="guest-icon-box">
+                    <ion-icon name="person-add-outline"></ion-icon>
+                  </div>
+                  <div class="guest-info">
+                    <h2>Selamat Datang di TokoGenZ!</h2>
+                    <p>Yuk, masuk atau daftar akun sekarang untuk menikmati pengalaman belanja terbaik, promo eksklusif, dan pelacakan pesanan.</p>
+                  </div>
+                </div>
+              </ion-col>
+
+              <ion-col size="12" size-md="5" class="guest-action-col">
+                <div class="guest-action-buttons">
+                  <ion-button expand="block" class="btn-guest-login" [routerLink]="['/login']">
+                    <ion-icon slot="start" name="log-in-outline"></ion-icon>
+                    Masuk ke Akun
+                  </ion-button>
+                  <ion-button expand="block" fill="clear" class="btn-guest-register" [routerLink]="['/register']">
+                    Belum punya akun? <span class="register-link">Daftar</span>
+                  </ion-button>
+                </div>
+              </ion-col>
+
+            </ion-row>
+          </ion-grid>
+        </div>
+
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+</ion-content>

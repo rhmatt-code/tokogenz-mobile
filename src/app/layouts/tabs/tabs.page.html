@@ -1,0 +1,55 @@
+<ion-content fullscreen>
+  <ion-router-outlet></ion-router-outlet>
+</ion-content>
+
+<ion-footer class="ion-no-border bnb-footer">
+  <div class="bnb-container">
+
+    <div class="bnb-rect-bg"></div>
+
+    <!-- Kontainer Utama Sejajar -->
+    <div class="bnb-inline-layout">
+
+      <!-- 1. HOME -->
+      <div
+        class="menu-item"
+        [class.active]="activeTab === 'home'"
+        (click)="changeTab('/tabs/home')">
+        <div class="active-indicator-line"></div>
+        <ion-icon [name]="activeTab === 'home' ? 'home' : 'home-outline'"></ion-icon>
+        <span>Home</span>
+      </div>
+
+      <!-- 2. LIVE -->
+      <div
+        class="menu-item"
+        [class.active]="activeTab === 'discover'"
+        (click)="changeTab('/tabs/live-list')">
+        <div class="active-indicator-line"></div>
+        <ion-icon [name]="activeTab === 'discover' ? 'play-circle' : 'play-circle-outline'"></ion-icon>
+        <span>Live</span>
+      </div>
+
+      <!-- 3. ORDERS (Sekarang sejajar di tengah) -->
+      <div
+        class="menu-item"
+        [class.active]="activeTab === 'orders'"
+        (click)="changeTab('/tabs/orders')">
+        <div class="active-indicator-line"></div>
+        <ion-icon [name]="activeTab === 'orders' ? 'storefront' : 'storefront-outline'"></ion-icon>
+        <span>Orders</span>
+      </div>
+
+      <!-- 4. PROFILE -->
+      <div
+        class="menu-item"
+        [class.active]="activeTab === 'profile'"
+        (click)="changeTab('/tabs/profile')">
+        <div class="active-indicator-line"></div>
+        <ion-icon [name]="activeTab === 'profile' ? 'person' : 'person-outline'"></ion-icon>
+        <span>Profile</span>
+      </div>
+
+    </div>
+  </div>
+</ion-footer>

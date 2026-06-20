@@ -1,0 +1,413 @@
+ion-content {
+  // Kita paksa ubah variabel penampung internal bawaan Ionic
+  --background: var(--ion-background-color, #ffffff) !important;
+  background: var(--ion-background-color, #ffffff) !important;
+
+  // Tembus bagian scroll container bawaan shadow DOM ionic
+  &::part(background) {
+    background: var(--ion-background-color, #ffffff) !important;
+  }
+  &::part(scroll) {
+    background: var(--ion-background-color, #ffffff) !important;
+  }
+}
+
+@mixin force-dark-override {
+  ion-content {
+    --background: #121212 !important;
+    background: #121212 !important;
+    &::part(background) { background: #121212 !important; }
+    &::part(scroll) { background: #121212 !important; }
+  }
+  .profile-content-wrapper {
+    --background: #121212 !important;
+    background: #121212 !important;
+  }
+  .profile-header-card, .stat-box, .menu-item-row {
+    background: #1e1e1e !important;
+    --background: #1e1e1e !important;
+    &::part(native) { background: #1e1e1e !important; }
+  }
+  .menu-item-row .icon-wrapper {
+    background: rgba(59, 130, 246, 0.15) !important;
+    ion-icon { color: #3b82f6 !important; }
+  }
+  .stat-box h3 { color: #3b82f6 !important; }
+}
+
+// Eksekusi jika body memiliki class .dark (Dari Theme Service aplikasi)
+:host-context(.dark), body.dark, html.dark {
+  @include force-dark-override;
+}
+
+// Eksekusi jika preferensi OS adalah dark mode
+@media (prefers-color-scheme: dark) {
+  @include force-dark-override;
+}
+
+
+
+// =========================================================
+// VARIABEL ARSITEKTUR WARNA & BREAKPOINTS
+// =========================================================
+$navy-main: #1E3A8A;
+$blue-accent: #2563EB;
+$bp-tablet: 768px;
+
+.checkout-content-wrapper {
+  --background: var(--ion-background-color, #F8FAFC); 
+
+  &::part(scroll) {
+    padding-bottom: 40px;
+  }
+}
+
+// Pengaturan layout Grid Khusus Tablet
+.checkout-grid {
+  padding: 8px;
+  
+  @media (min-width: $bp-tablet) {
+    padding: 16px;
+    max-width: 1024px;
+    margin: 0 auto; // Menjaga konten tablet tetap di tengah
+  }
+}
+
+.figma-checkout-header {
+  ion-toolbar {
+    --background: var(--ion-card-background, #FFFFFF);
+    --color: var(--ion-text-color, #1E293B);
+    font-weight: 700;
+  }
+  .btn-cart-top {
+    --color: var(--ion-text-color, #1E293B);
+    font-size: 20px;
+  }
+}
+
+/* KARTU PEMBUNGKUS UTAMA */
+.checkout-card {
+  background: var(--ion-card-background, #FFFFFF);
+  margin: 8px;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0px 4px 14px var(--ion-color-step-50, rgba(0, 0, 0, 0.02));
+  border: 1px solid var(--ion-color-step-100, transparent);
+
+  @media (min-width: $bp-tablet) {
+    margin: 12px 0; // Merapikan margin saat berjejer di tablet
+  }
+}
+
+.card-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+
+  .title-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: var(--ion-color-step-700, #334155);
+    font-size: 14px;
+  }
+  .icon-blue {
+    color: var(--ion-color-primary, $navy-main);
+    font-size: 18px;
+  }
+}
+
+/* DETAIL ALAMAT */
+.address-details {
+  .user-meta {
+    font-size: 13px;
+    color: var(--ion-text-color, #1E293B);
+    margin: 0 0 4px 0;
+  }
+  .address-text {
+    font-size: 12px;
+    color: var(--ion-color-step-600, #64748B);
+    line-height: 1.5;
+    margin: 0;
+  }
+}
+
+/* SEPARATOR RINGKASAN */
+.section-divider-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 8px 4px 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ion-color-step-600, #475569);
+
+  ion-icon {
+    font-size: 18px;
+  }
+}
+
+/* ITEM PRODUK */
+.product-item-row {
+  display: flex;
+  gap: 12px;
+
+  .product-thumbnail {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    background: var(--ion-color-step-50, #F8FAFC);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    img {
+      max-width: 100%;
+      object-fit: contain;
+    }
+  }
+
+  .product-info-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .product-name {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 0 0 4px 0;
+      color: var(--ion-text-color, #1E293B);
+    }
+    
+    .price-qty-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+
+      .product-price {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--ion-color-secondary, $blue-accent);
+      }
+    }
+  }
+}
+
+/* QUANTITY CONTROLLER */
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .qty-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--ion-color-step-200, #CBD5E1);
+    background: var(--ion-card-background, #FFFFFF);
+    color: var(--ion-text-color, #1E293B);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  .qty-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ion-text-color, #1E293B);
+  }
+}
+
+/* BILLING SUMMARY */
+.card-billing-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .billing-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--ion-color-step-500, #64748B);
+
+    .val {
+      color: var(--ion-text-color, #1E293B);
+      font-weight: 500;
+    }
+  }
+  
+  .total-row-summary {
+    border-top: 1px dashed var(--ion-color-step-200, #E2E8F0);
+    padding-top: 12px;
+    margin-top: 4px;
+    color: var(--ion-text-color, #1E293B);
+    font-weight: 600;
+
+    .val-total {
+      color: var(--ion-color-secondary, $blue-accent);
+      font-weight: 700;
+    }
+  }
+}
+
+/* CARD QRIS */
+.payment-card {
+  text-align: center;
+  
+  h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 0;
+    color: var(--ion-text-color, #1E293B);
+  }
+}
+
+.qr-wrapper {
+  margin: 16px 0;
+  display: flex;
+  justify-content: center;
+
+  img {
+    width: 220px;
+    height: 220px;
+    object-fit: contain;
+    padding: 8px;
+    background: #FFFFFF; // Tetap putih murni agar QR mudah di-scan devis manapun
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+}
+
+.countdown-box {
+  margin-bottom: 12px;
+  
+  .countdown-label {
+    font-size: 12px;
+    color: var(--ion-color-step-500, #64748B);
+  }
+  .countdown-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ion-color-secondary, $blue-accent);
+    margin-top: 4px;
+
+    &.expired {
+      color: #EF4444;
+    }
+  }
+}
+
+.payment-status {
+  font-size: 13px;
+  margin: 8px 0;
+}
+.invoice-box {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ion-color-secondary, $blue-accent);
+}
+.waiting-info {
+  font-size: 12px;
+  color: var(--ion-color-step-400, #94A3B8);
+  margin-top: 8px;
+}
+
+/* STICKY FOOTER */
+ion-footer {
+  background: var(--ion-card-background, #FFFFFF);
+}
+
+.checkout-sticky-footer {
+  background: var(--ion-card-background, #FFFFFF);
+  padding: 16px 24px calc(16px + var(--ion-safe-area-bottom, 0px)) 24px;
+  box-shadow: 0px -10px 30px var(--ion-color-step-50, rgba(0, 0, 0, 0.04));
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-top: 1px solid var(--ion-color-step-100, transparent);
+
+  @media (min-width: $bp-tablet) {
+    // Pada tablet, posisikan sticky footer di tengah agar proporsional
+    .footer-container {
+      max-width: 992px;
+      margin: 0 auto;
+    }
+  }
+
+  .footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .price-total-preview {
+      .lbl {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--ion-color-step-400, #94A3B8);
+        margin: 0;
+      }
+      .price-val {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--ion-color-primary, #1E3A8A);
+        margin: 2px 0 0 0;
+      }
+    }
+
+    .btn-place-order {
+      background: var(--ion-color-primary, #1E3A8A);
+      color: var(--ion-color-primary-contrast, #FFFFFF);
+      border: none;
+      padding: 14px 28px;
+      border-radius: 24px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0px 4px 12px rgba(30, 58, 138, 0.2);
+      transition: background 0.2s ease, opacity 0.2s ease;
+      
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+
+      &:active:not(:disabled) {
+        opacity: 0.85;
+      }
+    }
+  }
+}
+
+// =========================================================
+// ATURAN TEMA GELAP (PENGUNCIAN KONTRAS)
+// =========================================================
+@mixin dark-checkout-overrides {
+  .checkout-card {
+    border-color: var(--ion-color-step-100, #2E2E2E) !important;
+  }
+  .quantity-control .qty-btn {
+    border-color: var(--ion-color-step-300, #4E4E4E);
+  }
+  .checkout-sticky-footer .footer-container .btn-place-order {
+    // Memastikan teks tombol primer terbaca jelas di mode gelap jika warna dasar berubah cerah
+    color: var(--ion-color-primary-contrast, #FFFFFF) !important; 
+  }
+}
+
+body.dark { @include dark-checkout-overrides; }
+@media (prefers-color-scheme: dark) { 
+  body { @include dark-checkout-overrides; } 
+}

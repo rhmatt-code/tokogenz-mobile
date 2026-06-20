@@ -1,0 +1,132 @@
+<ion-content [fullscreen]="true" class="home-content">
+
+  <!-- Bagian Header (Login/Guest) -->
+  <div class="header-section" *ngIf="user$ | async as user; else belumLogin">
+    <div class="header-left">
+      <h1>Halo, {{ user.name }}!</h1>
+      <p class="header-subtitle">  Temukan produk favoritmu hari ini. </p>
+    </div>
+    <div class="header-right">
+      <ion-avatar class="profile-avatar">
+        <!-- Menggunakan object-cover di SCSS, jadi tidak butuh style inline di img -->
+        <img [src]="user.logo ? (user.logo.startsWith('http') ? user.logo : 'https://tokogenz.campusjaya.site/storage/' + user.logo) : './../../../assets/images/default-avatar.png'" alt="Profile">
+      </ion-avatar>
+    </div>
+  </div>
+
+  <ng-template #belumLogin>
+    <div class="header-section">
+      <div class="header-left">
+        <h1>Halo, Guest!</h1>
+        <p class="header-subtitle">  Login untuk melihat produk dan promo terbaru.</p>
+      </div>
+      <div class="header-right">
+        <ion-button fill="solid" color="primary" shape="round" class="btn-login" (click)="login()">
+          <ion-icon slot="start" name="log-in-outline"></ion-icon>
+          Login
+        </ion-button>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Searchbar -->
+  <ion-searchbar
+    mode="ios"
+    placeholder="Cari produk ..."
+    [debounce]="500"
+    (ionInput)="onSearchChange($event)"
+    class="custom-searchbar"
+  ></ion-searchbar>
+
+  <!-- Kategori (Tampil jika tidak sedang mencari) -->
+  <div class="category-section" *ngIf="!searchQuery">
+    <div class="section-header">
+      <h2>Kategori</h2>
+    </div>
+    <div class="category-scroll-container">
+      <div
+        class="category-item"
+        *ngFor="let category of categories"
+        [class.active]="selectedCategory === category"
+        (click)="selectCategory(category)"
+      >
+        {{ category }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Bagian Produk -->
+  <div class="product-section">
+    <div class="section-header">
+      <h2>{{ searchQuery ? 'HASIL PENCARIAN' : 'Produk Terbaru' }}</h2>
+      <a *ngIf="!searchQuery" (click)="selectCategory('All')">Lihat Semua</a>
+    </div>
+
+    <!-- Keadaan Loading -->
+    <div *ngIf="isLoading" class="ion-text-center ion-padding state-container">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+      <p class="state-text">Mencari produk terbaik untukmu...</p>
+    </div>
+
+    <!-- Keadaan Produk Tidak Ditemukan (Search) -->
+    <div *ngIf="!isLoading && products.length === 0" class="ion-text-center ion-padding state-container">
+      <p class="state-title">Yah, produk tidak ditemukan...</p>
+      <p class="state-text">Coba ketik kata kunci lain untuk produk "{{ searchQuery }}".</p>
+    </div>
+
+    <!-- Keadaan Kategori Kosong -->
+    <div *ngIf="!isLoading && filteredProducts.length === 0 && products.length > 0" class="ion-text-center ion-padding state-container">
+      <p class="state-title">Belum Ada Produk</p>
+      <p class="state-text">
+        Maaf, saat ini belum ada produk yang tersedia untuk kategori <strong>{{ selectedCategory }}</strong>.
+      </p>
+    </div>
+
+    <!-- Grid Produk Responsif -->
+    <div class="product-grid" *ngIf="!isLoading && products.length > 0">
+      <div
+        class="product-card"
+        *ngFor="let product of paginatedProducts"
+      >
+        <div class="product-image-container" (click)="goToProduct(product.id)">
+          <img [src]="product.image" [alt]="product.name">
+        </div>
+
+        <div class="product-info-container">
+          <h3 (click)="goToProduct(product.id)">{{ product.name }}</h3>
+          <div class="price-container">
+            <span class="currency">Rp</span>
+            <span class="value">{{ product.price | number }}</span>
+          </div>
+          <div class="product-card-footer">
+            <span class="seller-name">{{ product.seller_name }}</span>
+            <ion-button fill="solid" size="small" color="primary" class="btn-buy" (click)="goToProduct(product.id)">
+              Lihat
+            </ion-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pagination-section" *ngIf="!isLoading && products.length > 0">
+  <ion-button fill="clear" color="medium" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)" class="pagination-btn">
+    <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+  </ion-button>
+
+  <div class="pagination-pages">
+    <div
+      *ngFor="let page of totalPagesArray"
+      class="page-number"
+      [class.active]="currentPage === page"
+      (click)="goToPage(page)"
+    >
+      {{ page }}
+    </div>
+  </div>
+
+  <ion-button fill="clear" color="medium" [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)" class="pagination-btn">
+    <ion-icon slot="icon-only" name="chevron-forward-outline"></ion-icon>
+  </ion-button>
+</div>
+</ion-content>

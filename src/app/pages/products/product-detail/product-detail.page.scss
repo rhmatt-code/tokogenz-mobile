@@ -1,0 +1,358 @@
+ion-content {
+  // Kita paksa ubah variabel penampung internal bawaan Ionic
+  --background: var(--ion-background-color, #ffffff) !important;
+  background: var(--ion-background-color, #ffffff) !important;
+
+  // Tembus bagian scroll container bawaan shadow DOM ionic
+  &::part(background) {
+    background: var(--ion-background-color, #ffffff) !important;
+  }
+  &::part(scroll) {
+    background: var(--ion-background-color, #ffffff) !important;
+  }
+}
+
+@mixin force-dark-override {
+  ion-content {
+    --background: #121212 !important;
+    background: #121212 !important;
+    &::part(background) { background: #121212 !important; }
+    &::part(scroll) { background: #121212 !important; }
+  }
+  .profile-content-wrapper {
+    --background: #121212 !important;
+    background: #121212 !important;
+  }
+  .profile-header-card, .stat-box, .menu-item-row {
+    background: #1e1e1e !important;
+    --background: #1e1e1e !important;
+    &::part(native) { background: #1e1e1e !important; }
+  }
+  .menu-item-row .icon-wrapper {
+    background: rgba(59, 130, 246, 0.15) !important;
+    ion-icon { color: #3b82f6 !important; }
+  }
+  .stat-box h3 { color: #3b82f6 !important; }
+}
+
+// Eksekusi jika body memiliki class .dark (Dari Theme Service aplikasi)
+:host-context(.dark), body.dark, html.dark {
+  @include force-dark-override;
+}
+
+// Eksekusi jika preferensi OS adalah dark mode
+@media (prefers-color-scheme: dark) {
+  @include force-dark-override;
+}
+
+.detail-content-wrapper {
+  --background: var(--ion-background-color, #ffffff);
+}
+
+// CONTAINER UTAMA TABLET
+.tablet-container {
+  max-width: 1200px; // Membatasi lebar agar tetap elegan di tablet landscape / iPad Pro
+  margin: 0 auto;
+}
+
+// LOADING STATE
+.loading-state {
+  padding: 40px 20px;
+  p {
+    color: var(--ion-color-step-600, #666666);
+    font-size: 14px;
+    margin-top: 12px;
+  }
+}
+
+// GALLERY IMAGE SECTIONS
+.product-gallery {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: var(--ion-color-step-50, #f4f5f8);
+  overflow: hidden;
+  img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+  }
+}
+
+// INFO CONTENT BLOCK
+.product-info-section {
+  padding: 24px 16px;
+  background: var(--ion-background-color, #ffffff);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  margin-top: -24px;
+  position: relative;
+  z-index: 10;
+  box-shadow: 0 -8px 24px rgba(var(--ion-text-color-rgb, "0,0,0"), 0.04);
+
+  .price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+
+    .product-price {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--ion-color-primary, #1E3A8A); 
+      margin: 0;
+    }
+
+    .btn-favorite {
+      background: var(--ion-color-step-100, #f4f5f8);
+      border: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--ion-color-step-600, #666666);
+      transition: all 0.2s ease;
+
+      &.active {
+        background: rgba(var(--ion-color-danger-rgb, "235, 68, 90"), 0.1);
+        color: var(--ion-color-danger, #eb445a);
+      }
+      &:active {
+        transform: scale(0.92);
+      }
+    }
+  }
+
+  .product-name {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--ion-text-color, #222428); 
+    margin: 0 0 14px 0;
+  }
+
+  .meta-rating-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+
+    .rating-badge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--ion-text-color, #222428);
+      font-weight: 600;
+      
+      ion-icon { 
+        color: #ffc107; 
+        font-size: 16px;
+      }
+      .rating-value {
+        line-height: 1;
+      }
+      .review-count {
+        color: var(--ion-color-step-500, #888888);
+        font-weight: 400;
+        margin-left: 2px;
+      }
+    }
+
+    .stock-badge {
+      background: rgba(var(--ion-color-success-rgb, "45, 211, 111"), 0.15);
+      color: var(--ion-color-success, #2dd36f);
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-weight: 600;
+
+      &.low-stock {
+        background: rgba(var(--ion-color-danger-rgb, "235, 68, 90"), 0.15);
+        color: var(--ion-color-danger, #eb445a);
+      }
+    }
+  }
+
+  .divider {
+    height: 1px;
+    background: rgba(var(--ion-text-color-rgb, "0,0,0"), 0.08);
+    margin: 20px 0;
+  }
+
+  .store-owner-card {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 14px;
+    gap: 12px;
+    cursor: pointer;
+    background: var(--ion-color-step-50, #f4f5f8); 
+    border: 1px solid rgba(var(--ion-text-color-rgb, "0,0,0"), 0.05);
+    transition: background 0.2s ease;
+
+    &:active {
+      background: var(--ion-color-step-150, #e0e0e0);
+    }
+
+    .store-avatar-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--ion-background-color, #ffffff); 
+      border: 1px solid rgba(var(--ion-text-color-rgb, "0,0,0"), 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img { 
+        width: 100%; 
+        height: 100%; 
+        object-fit: cover; 
+      }
+    }
+
+    .store-meta-info {
+      flex-grow: 1;
+      
+      .store-name {
+        font-size: 14px;
+        font-weight: 700;
+        margin: 0 0 4px 0;
+        color:  #222428; // Diganti ke var agar aman di dark mode
+      }
+      
+      .store-location {
+        font-size: 12px;
+        color: var(--ion-color-step-600, #666666); 
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        
+        ion-icon { 
+          font-size: 14px;
+          color: var(--ion-color-step-400, #888888);
+        }
+      }
+    }
+
+    .btn-visit-store {
+      background: transparent; 
+      color: var(--ion-color-primary, #1E3A8A); 
+      border: 1px solid var(--ion-color-primary, #1E3A8A); 
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 18px;
+      transition: all 0.2s ease;
+
+      &:active {
+        background: rgba(var(--ion-color-primary-rgb, "30, 58, 138"), 0.08);
+      }
+    }
+  }
+
+  .description-box {
+    .description-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ion-text-color, #222428);
+      margin: 0 0 8px 0;
+    }
+    .description-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ion-color-step-700, white);
+      margin: 0;
+    }
+  }
+}
+
+// STICKY FOOTER ACTION
+.detail-sticky-footer {
+  background: var(--ion-background-color, #ffffff);
+  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.04); 
+  border-top: 1px solid rgba(var(--ion-text-color-rgb, "0,0,0"), 0.05);
+
+  .action-bar-container {
+    padding: 12px 16px calc(12px + var(--ion-safe-area-bottom, 0px)) 16px;
+    // Menyelaraskan footer dengan max-width tablet
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .btn-buy-now {
+    background: var(--ion-color-primary, #1E3A8A); 
+    color: var(--ion-color-primary-contrast, #ffffff);
+    border: none;
+    width: 100%;
+    padding: 14px; 
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb, "30, 58, 138"), 0.24); 
+    cursor: pointer;
+    transition: transform 0.1s ease, opacity 0.1s ease;
+
+    &:active {
+      transform: scale(0.98);
+      opacity: 0.95;
+    }
+
+    &.disabled-style {
+      background: var(--ion-color-step-200, #d7d8da) !important;
+      color: var(--ion-color-step-500, #666666) !important;
+      box-shadow: none !important;
+      cursor: not-allowed;
+      pointer-events: none; 
+    }
+  }
+}
+
+// ==========================================
+// KODE TAMBAHAN UNTUK TABLET RESPONSIVE (md >= 768px)
+// ==========================================
+@media (min-width: 768px) {
+  .responsive-row {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .col-gallery {
+    position: sticky;
+    top: 0;
+    height: fit-content;
+    padding: 24px 12px 24px 24px !important;
+
+    .product-gallery {
+      aspect-ratio: 1 / 1; // Ubah jadi persegi di tablet agar proporsional
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    }
+  }
+
+  .col-info {
+    padding: 24px 24px 24px 12px !important;
+
+    .product-info-section {
+      margin-top: 0;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+      background: transparent;
+    }
+  }
+
+  .detail-sticky-footer {
+    // Memberikan padding kanan-kiri ekstra di tablet agar tombol buy now tidak terlalu lebar meregang
+    .action-bar-container {
+      padding: 16px 24px;
+    }
+  }
+}

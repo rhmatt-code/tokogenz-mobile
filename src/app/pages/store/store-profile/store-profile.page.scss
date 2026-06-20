@@ -1,0 +1,249 @@
+// Base Wrapper & Global Tablet Constraints
+.detail-content-wrapper {
+  --background: var(--ion-background-color, #f8f9fa);
+}
+
+// Class baru untuk membatasi lebar konten di layar lebar (Tablet/PC)
+.tablet-container {
+  max-width: 1024px; // Batas ideal untuk layar tablet
+  margin: 0 auto;    // Membuat konten otomatis di tengah layar
+  width: 100%;
+}
+
+// PREMIUM STORE HEADER WITH BLUR BACKGROUND
+.store-header-section {
+  position: relative;
+  overflow: hidden;
+  padding: 30px 20px;
+  background: var(--ion-card-background, #ffffff);
+  border-bottom: 1px solid rgba(var(--ion-text-color-rgb, "0,0,0"), 0.05);
+
+  // Pastikan konten header juga sejajar di tengah pada mode tablet
+  .store-info-container {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 1024px;
+    margin: 0 auto;
+  }
+
+  .store-cover-blur {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-size: cover;
+    background-position: center;
+    filter: blur(40px) brightness(0.6);
+    opacity: 0.15;
+    z-index: 1;
+    transform: scale(1.2);
+  }
+
+  .store-logo-box {
+    width: 70px;
+    height: 70px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 2px solid var(--ion-card-background, #ffffff);
+    flex-shrink: 0;
+
+    // Perbesar sedikit logo toko saat di layar tablet agar seimbang
+    @media (min-width: 768px) {
+      width: 90px;
+      height: 90px;
+      border-radius: 20px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .store-details {
+    h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 4px 0;
+      color: var(--ion-text-color, #222428);
+      
+      @media (min-width: 768px) {
+        font-size: 22px; // Judul toko sedikit lebih besar di tablet
+      }
+    }
+
+    .store-description {
+      font-size: 13px;
+      color: var(--ion-color-step-600, #666666);
+      margin: 0;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+
+      @media (min-width: 768px) {
+        font-size: 14px;
+        -webkit-line-clamp: 3; // Berikan ruang deskripsi lebih panjang di tablet
+      }
+    }
+  }
+}
+
+// SECTION DIVIDER
+.section-divider {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 16px 10px 16px;
+  max-width: 1024px;
+  margin: 0 auto; // Supaya sejajar dengan grid produk di tengah
+  
+  h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--ion-text-color, #222428);
+    
+    @media (min-width: 768px) {
+      font-size: 18px;
+    }
+  }
+  span {
+    font-size: 12px;
+    color: var(--ion-color-step-500, #888888);
+    
+    @media (min-width: 768px) {
+      font-size: 14px;
+    }
+  }
+}
+
+// MODERN GRID PRODUCT LIST
+.product-list-container {
+  padding: 0 10px 20px 10px;
+
+  @media (min-width: 768px) {
+    padding: 10px 16px 30px 16px; // Jarak padding luar yang lebih longgar di tablet
+  }
+
+  ion-col {
+    padding: 6px;
+    
+    @media (min-width: 768px) {
+      padding: 10px; // Jarak antar produk lebih lega di tablet
+    }
+  }
+
+  .product-card {
+    background: var(--ion-card-background, #ffffff);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(var(--ion-text-color-rgb, "0,0,0"), 0.04);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    // Tambahkan efek hover ringan yang biasanya aktif di device tablet/desktop dengan trackpad/mouse
+    @media (min-width: 768px) {
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+      }
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    .product-img-box {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: var(--ion-color-step-50, #f4f5f8);
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .product-info {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-grow: 1;
+
+      @media (min-width: 768px) {
+        padding: 16px; // Padding informasi produk lebih luas di tablet
+      }
+
+      .product-title {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--ion-text-color, #222428);
+        margin: 0 0 10px 0;
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        min-height: 36px;
+
+        @media (min-width: 768px) {
+          font-size: 14px;
+          min-height: 40px;
+        }
+      }
+
+      .product-action-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .price {
+          font-size: 14px;
+          font-weight: 700;
+          color: var(--ion-color-primary, #3880ff);
+
+          @media (min-width: 768px) {
+            font-size: 16px;
+          }
+        }
+
+        .btn-buy {
+          background: rgba(var(--ion-color-primary-rgb, "56, 128, 255"), 0.1);
+          color: var(--ion-color-primary, #3880ff);
+          border: none;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          
+          @media (min-width: 768px) {
+            width: 36px;
+            height: 36px;
+          }
+          
+          ion-icon {
+            font-size: 16px;
+            @media (min-width: 768px) {
+              font-size: 18px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

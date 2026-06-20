@@ -1,0 +1,65 @@
+<ion-content class="otp-page">
+
+  <div class="container">
+
+    <div class="brand">
+
+      <img
+        src="./../../../../assets/images/logo.png"
+        alt="TokoGenz"
+      >
+
+      <h2>Verifikasi OTP</h2>
+
+      <p>
+        Masukkan kode OTP yang telah dikirim ke email Anda.
+      </p>
+
+    </div>
+
+    <form
+      [formGroup]="otpForm"
+      (ngSubmit)="verifyOtp()">
+
+      <div class="input-group">
+
+        <label>Kode OTP</label>
+
+        <input
+          type="text"
+          maxlength="6"
+          formControlName="otp"
+          placeholder="Masukkan 6 digit OTP"
+        >
+
+      </div>
+
+      <button
+        class="btn-primary"
+        type="submit"
+        [disabled]="otpForm.invalid || loading">
+
+        {{
+          loading
+          ? 'Memverifikasi...'
+          : 'Verifikasi OTP'
+        }}
+
+      </button>
+
+    </form>
+
+    <div class="footer-link">
+
+      <a
+        (click)="backToForgot()">
+
+        Kirim ulang OTP
+
+      </a>
+
+    </div>
+
+  </div>
+
+</ion-content>

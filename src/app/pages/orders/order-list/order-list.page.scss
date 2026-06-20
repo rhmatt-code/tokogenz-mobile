@@ -1,0 +1,645 @@
+ion-content {
+  // Kita paksa ubah variabel penampung internal bawaan Ionic
+  --background: var(--ion-background-color, #ffffff) !important;
+  background: var(--ion-background-color, #ffffff) !important;
+
+  // Tembus bagian scroll container bawaan shadow DOM ionic
+  &::part(background) {
+    background: var(--ion-background-color, #ffffff) !important;
+  }
+  &::part(scroll) {
+    background: var(--ion-background-color, #ffffff) !important;
+  }
+}
+
+@mixin force-dark-override {
+  ion-content {
+    --background: #121212 !important;
+    background: #121212 !important;
+    &::part(background) { background: #121212 !important; }
+    &::part(scroll) { background: #121212 !important; }
+  }
+  .profile-content-wrapper {
+    --background: #121212 !important;
+    background: #121212 !important;
+  }
+  .profile-header-card, .stat-box, .menu-item-row {
+    background: #1e1e1e !important;
+    --background: #1e1e1e !important;
+    &::part(native) { background: #1e1e1e !important; }
+  }
+  .menu-item-row .icon-wrapper {
+    background: rgba(59, 130, 246, 0.15) !important;
+    ion-icon { color: #3b82f6 !important; }
+  }
+  .stat-box h3 { color: #3b82f6 !important; }
+}
+
+// Eksekusi jika body memiliki class .dark (Dari Theme Service aplikasi)
+:host-context(.dark), body.dark, html.dark {
+  @include force-dark-override;
+}
+
+// Eksekusi jika preferensi OS adalah dark mode
+@media (prefers-color-scheme: dark) {
+  @include force-dark-override;
+}
+
+
+/* =========================================================
+   1. VARIABEL UTAMA & CONFIG GLOBAL
+========================================================= */
+$navy-light: #1D3A8A;
+$danger-color: #EF4444;
+
+ion-content {
+  --background: var(--ion-background-color, #F4F5FA);
+}
+
+ion-modal {
+  --backdrop-opacity: 0.4;
+  --z-index: 99999;
+}
+
+/* =========================================================
+   2. CUSTOM COMPONENTS & TOOLBAR
+========================================================= */
+.custom-toolbar {
+  --background: var(--ion-background-color, #ffffff); 
+  --color: var(--ion-color-primary, #1E3A8A); 
+
+  ion-back-button, 
+  ion-button {
+    --color: var(--ion-color-primary, #1E3A8A); 
+  }
+
+  ion-title {
+    font-size: 20px;
+    font-weight: 600;
+    padding-inline-start: 8px; 
+  }
+}
+
+/* =========================================================
+   3. LAYOUT RESPONSIF PENAMPUNG UTAMA (Tablet Friendly)
+========================================================= */
+.orders-content-wrapper {
+  --background: var(--ion-background-color, #f8f9fa);
+  --padding-top: 16px; 
+  --padding-bottom: 50px; 
+  width: 100%; 
+  max-width: 100% !important; 
+  margin: 0 auto !important;
+
+  @media (min-width: 768px) {
+    --padding-top: 30px;
+  }
+}
+
+.orders-container {
+  width: 100%;
+  padding: 0 16px;
+
+  @media (min-width: 768px) {
+    padding: 0 24px;
+  }
+}
+
+.tablet-profile-container, 
+.style-grid-center {
+  width: 100% !important;
+  max-width: 1000px !important; 
+  margin: 0 auto !important; 
+}
+
+/* =========================================================
+   FIXED CENTER POSITION FOR TABLET MODE
+========================================================= */
+.login-required-container {
+  width: 100%;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center; // Kunci utama untuk meratakan konten ke tengah secara horizontal
+  min-height: 65vh; 
+}
+
+.login-required-card {
+  position: relative;
+  background: linear-gradient(135deg, var(--ion-card-background, #ffffff) 0%, rgba(var(--ion-color-primary-rgb, "30, 58, 138"), 0.03) 100%) !important;
+  padding: 24px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(var(--ion-text-color-rgb, "0,0,0"), 0.04) !important;
+  border: 1px solid var(--ion-color-step-100, rgba(202, 195, 216, 0.2)) !important;
+  
+  // Mengatur lebar card di HP (Full Width)
+  width: 100%; 
+
+  // Dekorasi Latar Belakang Lingkaran Abstrak
+  .decor-circle-1 {
+    position: absolute;
+    width: 150px; height: 150px;
+    border-radius: 50%;
+    background: rgba(var(--ion-color-primary-rgb, "30, 58, 138"), 0.03);
+    top: -60px; right: -60px;
+  }
+  .decor-circle-2 {
+    position: absolute;
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    background: rgba(239, 68, 68, 0.02); 
+    bottom: -30px; left: -30px;
+  }
+
+  // Tampilan Default Mobile (Stack Vertikal)
+  .login-content-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 2;
+
+    .login-icon-box {
+      width: 64px; height: 64px;
+      border-radius: 18px;
+      background: rgba(var(--ion-color-primary-rgb, "30, 58, 138"), 0.1) !important;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 20px rgba(var(--ion-color-primary-rgb, "30, 58, 138"), 0.05);
+
+      ion-icon {
+        color: var(--ion-color-primary, #1E3A8A) !important;
+        font-size: 30px;
+      }
+    }
+
+    .login-info {
+      h2 {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--ion-text-color, #1C1B1F) !important;
+        margin: 0 0 6px 0;
+        letter-spacing: -0.3px;
+      }
+      p {
+        font-size: 13px;
+        line-height: 1.5;
+        color: var(--ion-color-step-600, #666666) !important;
+        margin: 0;
+      }
+    }
+  }
+
+  .login-action-area {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+
+    .btn-login-action {
+      background: var(--ion-color-primary, #1E3A8A) !important;
+      color: var(--ion-color-primary-contrast, #ffffff) !important;
+      border: none;
+      border-radius: 14px;
+      width: 100%;
+      height: 48px;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(var(--ion-color-primary-rgb, "30, 58, 138"), 0.2);
+      transition: transform 0.1s ease;
+
+      &:active { transform: scale(0.97); }
+    }
+  }
+
+  // PENYESUAIAN UKURAN KHUSUS TABLET MODE (md >= 768px)
+  @media (min-width: 768px) {
+    max-width: 850px; /* Membatasi lebar card agar proporsional di tengah layar tablet */
+    padding: 36px;
+    margin: 0 auto; /* Memaksa margin kanan & kiri membagi ruang sama rata */
+
+    .login-content-box {
+      flex-direction: row;
+      text-align: left;
+      margin-bottom: 0;
+      gap: 24px;
+
+      .login-icon-box {
+        flex-shrink: 0;
+        width: 72px; height: 72px;
+        ion-icon { font-size: 34px; }
+      }
+      .login-info h2 { font-size: 20px; }
+    }
+    
+    .login-action-col {
+      padding-left: 24px !important;
+    }
+  }
+}
+
+/* =========================================================
+   5. SCROLLABLE SEGMENT TABS
+========================================================= */
+.status-segment-container {
+  width: 100%; 
+  padding: 14px 0; 
+  overflow: hidden; 
+  background: transparent;
+
+  .scroll-segment {
+    display: flex; 
+    gap: 10px; 
+    overflow-x: auto; 
+    white-space: nowrap;
+    &::-webkit-scrollbar { display: none; } 
+
+    @media (min-width: 768px) {
+      justify-content: center;
+      overflow-x: visible;
+    }
+
+    .segment-btn {
+      background: var(--ion-card-background, #FFFFFF);
+      color: var(--ion-color-step-600, #49454F);
+      border: 1px solid var(--ion-color-step-200, rgba(202, 195, 216, 0.4));
+      padding: 8px 20px; 
+      font-size: 14px; 
+      font-weight: 500; 
+      border-radius: 20px;
+      cursor: pointer; 
+      transition: all 0.2s ease;
+
+      &.active {
+        background: var(--ion-color-primary, $navy-light);
+        color: var(--ion-color-primary-contrast, #FFFFFF);
+        border-color: var(--ion-color-primary, $navy-light);
+        box-shadow: 0px 4px 10px var(--ion-color-primary-shadow, rgba(29, 58, 138, 0.2));
+      }
+    }
+  }
+}
+
+/* =========================================================
+   6. GRID LIST & DATA KARTU PESANAN
+========================================================= */
+.orders-list {
+  display: grid; 
+  grid-template-columns: 1fr; 
+  gap: 16px;
+  width: 100%;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.order-card {
+  background: var(--ion-card-background, #FFFFFF);
+  border-radius: 20px; 
+  padding: 16px;
+  box-shadow: 0px 4px 16px var(--ion-color-step-50, rgba(0, 0, 0, 0.03));
+  border: 1px solid var(--ion-color-step-100, rgba(202, 195, 216, 0.2));
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  /* Header Bagian Kartu */
+  .card-header {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-start;
+    padding-bottom: 12px;
+    border-bottom: 0.5px solid var(--ion-color-step-150, #F0F0F5);
+
+    .invoice-info {
+      display: flex; 
+      align-items: center; 
+      gap: 10px;
+
+      .bag-icon {
+        font-size: 20px;
+        color: var(--ion-color-primary, $navy-light);
+        background: var(--ion-color-primary-tint, rgba(29, 58, 138, 0.06));
+        padding: 6px; 
+        border-radius: 10px;
+      }
+
+      h3 {
+        font-size: 13px; 
+        font-weight: 600;
+        color: var(--ion-text-color, #1C1B1F);
+        margin: 0;
+      }
+      p {
+        font-size: 11px;
+        color: var(--ion-color-step-400, #7A7A8A);
+        margin: 2px 0 0 0;
+      }
+    }
+
+    .countdown-box {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 6px;
+      color: $danger-color;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-badge {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap; 
+      
+      &.pending { background: #FEF3C7; color: #D97706; }
+      &.paid { background: #DCFCE7; color: #16A34A; }
+      &.shipped { background: #E0F2FE; color: #0369A1; }
+      &.completed { background: #F3F4F6; color: #4B5563; }
+      &.cancelled, &.canceled { background: #FEE2E2; color: #DC2626; }
+    }
+  }
+
+  /* Body Bagian Kartu */
+  .card-body {
+    display: flex; 
+    flex-direction: column; 
+    padding: 14px 0;
+    flex-grow: 1; 
+
+    .main-product-row { display: flex; gap: 14px; width: 100%; }
+
+    .product-img {
+      width: 64px; 
+      height: 64px; 
+      border-radius: 12px; 
+      object-fit: cover;
+      background: var(--ion-color-step-100, #F4F5FA);
+    }
+
+    .product-details {
+      flex: 1; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center;
+
+      h4 {
+        font-size: 14px; 
+        font-weight: 600;
+        color: var(--ion-text-color, #1C1B1F); 
+        margin: 0;
+      }
+      .qty-info {
+        font-size: 12px; 
+        color: var(--ion-color-step-400, #7A7A8A); 
+        margin: 4px 0 0 0;
+      }
+
+      .product-price {
+        margin-top: 6px;
+        font-size: 15px;
+        font-weight: 700;
+        color: #1E3A8A;
+      }
+    }
+  }
+
+  /* Dropdown List Produk Tambahan */
+  .expanded-products-list {
+    margin-top: 12px; 
+    padding-top: 12px;
+    border-top: 1px dashed var(--ion-color-step-200, rgba(202, 195, 216, 0.4));
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px;
+
+    .sub-product-row {
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+      padding-left: 12px;
+      
+      .sub-product-img {
+        width: 44px; 
+        height: 44px; 
+        border-radius: 8px; 
+        object-fit: cover;
+        background: var(--ion-color-step-100, #F4F5FA);
+      }
+
+      .sub-product-details {
+        flex: 1;
+        h5 {
+          font-size: 13px; 
+          font-weight: 500;
+          color: var(--ion-color-step-700, #49454F); 
+          margin: 0;
+        }
+        .sub-qty-info {
+          font-size: 11px; 
+          color: var(--ion-color-step-400, #7A7A8A); 
+          margin: 2px 0 0 0;
+        }
+      }
+    }
+  }
+
+  /* Footer Bagian Kartu */
+  .card-footer {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    padding-top: 12px;
+    border-top: 0.5px solid var(--ion-color-step-150, #F0F0F5);
+    margin-top: auto; 
+
+    .payment-timer {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      margin-bottom: 10px;
+
+      small {
+        color: #94A3B8;
+        font-size: 11px;
+      }
+      strong {
+        color: $danger-color;
+        font-size: 15px;
+        font-weight: 700;
+      }
+    }
+
+    .total-payment {
+      span { color: var(--ion-color-step-400, #7A7A8A); }
+      h3 {
+        font-size: 14px; 
+        font-weight: 700;
+        color: var(--ion-color-primary, $navy-light); 
+        margin: 2px 0 0 0;
+      }
+    }
+
+    .btn-action {
+      border: none; 
+      padding: 8px 20px; 
+      font-size: 13px; 
+      font-weight: 600; 
+      border-radius: 14px;
+      cursor: pointer; 
+      transition: all 0.2s ease;
+
+      &:active { transform: scale(0.95); }
+
+      &.primary-btn {
+        background: var(--ion-color-primary, $navy-light);
+        color: var(--ion-color-primary-contrast, #FFFFFF);
+        box-shadow: 0px 4px 12px var(--ion-color-primary-shadow, rgba(29, 58, 138, 0.2));
+      }
+
+      &.secondary-btn {
+        background: var(--ion-color-step-100, #F4F5FA);
+        color: var(--ion-text-color, #1C1B1F);
+        border: 1px solid var(--ion-color-step-200, rgba(202, 195, 216, 0.4));
+      }
+
+      &.disabled-btn {
+        background: #E5E7EB !important;
+        color: #6B7280 !important;
+        opacity: 1;
+        box-shadow: none !important;
+      }
+    }
+  }
+}
+
+/* =========================================================
+   7. EMPTY STATE INTERAKTIF
+========================================================= */
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh; 
+  padding: 24px;
+  text-align: center;
+  color: var(--ion-text-color, #222428);
+
+  .empty-state-inner {
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .icon-box {
+    background: var(--ion-card-background, #ffffff);
+    color: var(--ion-color-primary, #3880ff); 
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(56, 128, 255, 0.15);
+    margin-bottom: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+
+    ion-icon { font-size: 42px; }
+  }
+
+  h2 { font-size: 18px; font-weight: 700; margin: 0 0 8px 0; }
+  p { font-size: 13px; line-height: 1.5; margin: 0 0 24px 0; color: var(--ion-color-step-600, #666666); }
+
+  .btn-shop-now {
+    background: var(--ion-color-primary, #3880ff);
+    color: var(--ion-color-primary-contrast, #ffffff);
+    border: none;
+    padding: 12px 32px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 25px;
+    box-shadow: 0 4px 12px rgba(56, 128, 255, 0.3);
+    cursor: pointer;
+  }
+}
+
+/* =========================================================
+   8. DARK MODE ENGINE SYSTEM (Global Media Feature)
+========================================================= */
+@mixin login-required-dark {
+  .login-required-card {
+    background: linear-gradient(135deg, #1e1e1e 0%, rgba(83, 131, 255, 0.02) 100%) !important;
+    border-color: var(--ion-color-step-100, #262626) !important;
+    
+    .login-content-box .login-icon-box {
+      background: rgba(83, 131, 255, 0.15) !important;
+      ion-icon { color: #5383ff !important; }
+    }
+    .login-action-area .btn-login-action {
+      background: #5383ff !important;
+      color: #121212 !important;
+      box-shadow: 0 6px 16px rgba(83, 131, 255, 0.25) !important;
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  @include login-required-dark;
+
+  .custom-toolbar {
+    --background: var(--ion-background-color, #121212) !important;
+    --color: var(--ion-text-color, #f8f9fa) !important; 
+
+    ion-back-button, ion-button {
+      --color: var(--ion-text-color, #f8f9fa) !important; 
+    }
+  }
+
+  .status-segment-container .scroll-segment .segment-btn.active {
+    color: #121212 !important; 
+  }
+
+  .order-card {
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5) !important;
+    border-color: var(--ion-color-step-100, #262626) !important;
+
+    .card-header {
+      border-bottom-color: var(--ion-color-step-150, #333333) !important;
+      .invoice-info .bag-icon {
+        color: #5383ff !important;
+        background: rgba(83, 131, 255, 0.15) !important;
+      }
+      .status-badge {
+        &.shipped { background: #0c263a !important; color: #38bdf8 !important; }
+        &.completed { background: #2d2d30 !important; color: #9ca3af !important; }
+        &.cancelled, &.canceled { background: #4c1d24 !important; color: #fda4af !important; }
+      }
+    }
+
+    .card-footer {
+      border-top-color: var(--ion-color-step-150, #333333) !important;
+      .total-payment h3 { color: #5383ff !important; }
+      .btn-action.primary-btn {
+        background: #5383ff !important;
+        color: #121212 !important; 
+        box-shadow: 0px 4px 12px rgba(83, 131, 255, 0.3) !important;
+      }
+    }
+  }
+}

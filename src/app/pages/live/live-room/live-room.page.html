@@ -1,0 +1,141 @@
+<ion-content [fullscreen]="true" class="live-room-content">
+  
+  <div class="live-room-container">
+    
+    <div class="left-video-side">
+      <div class="stream-container">
+        <iframe
+          *ngIf="safeVideoUrl"
+          [src]="safeVideoUrl"
+          allow="autoplay; fullscreen; encrypted-media"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <div class="overlays-container">
+        <div class="overlay-top-bar">
+          <div class="host-badge">
+            <img [src]=" 'https://tokogenz.campusjaya.site/storage/' + hostAvatar || 'assets/images/default-avatar.png'" [alt]="hostName" class="host-img" />
+            <div class="host-info">
+              <span class="live-status">LIVE NOW</span>
+              <h3 class="host-title">{{ hostName || 'Store Name' }}</h3>
+            </div>
+          </div>
+
+          <div class="viewer-count-badge">
+            <ion-icon name="eye-outline"></ion-icon>
+            <span class="viewer-number">{{ viewerCount || 0 }}</span>
+          </div>
+          
+          <button class="icon-circle-btn btn-close" type="button" aria-label="Close room" (click)="closeRoom()">
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+        </div>
+
+        <div class="product-pinned-card" *ngIf="pinnedProduct">
+          <div class="product-thumb-container">
+            <img [src]="pinnedProduct.emoji" [alt]="pinnedProduct.name" />
+            <span class="pinned-tag">Sematkan</span>
+          </div>
+          <div class="product-details">
+            <h4>{{ pinnedProduct.name }}</h4>
+            <p class="product-price">Rp {{ pinnedProduct.price | number }}</p>
+          </div>
+          <button type="button" class="btn-action-buy" (click)="buyNow(pinnedProduct)">Beli</button>
+        </div>
+
+        <div class="chat-stream-area mobile-only-chat">
+          <div class="chat-scroll-wrapper" #chatContainer>
+              <div class="chat-bubble-item" [class.seller-chat]="message.isSeller" *ngFor="let message of messages; trackBy: trackByMessageIndex">
+                <div class="chat-message-content">
+                  <span class="chat-username" [class.seller-name]="message.isSeller">
+                    {{ message.user }}
+                    <span *ngIf="message.isSeller" class="seller-badge">
+                      SELLER
+                    </span>
+                  </span>
+                  <span class="chat-text">
+                    {{ message.text }}
+                  </span>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tablet-panel-right">
+      <div class="tablet-chat-header">
+        <h3>Live Chat</h3>
+      </div>
+      
+      <div class="chat-stream-area tablet-only-chat">
+        <div class="chat-scroll-wrapper" #chatContainer>
+          <div class="chat-bubble-item" [class.seller-chat]="message.isSeller" *ngFor="let message of messages; trackBy: trackByMessageIndex">
+                <div class="chat-message-content">
+                  <span class="chat-username" [class.seller-name]="message.isSeller">
+                    {{ message.user }}
+                    <span *ngIf="message.isSeller" class="seller-badge">
+                      SELLER
+                    </span>
+                  </span>
+                  <span class="chat-text">
+                    {{ message.text }}
+                  </span>
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border live-room-footer">
+  
+  <div class="product-drawer-sheet" *ngIf="isProductListOpen">
+    <div class="drawer-handle-bar">
+      <div class="handle-line"></div>
+    </div>
+    <div class="drawer-header">
+      <h3>Daftar Produk ({{ products.length || 0 }})</h3>
+      <button class="btn-close-drawer" (click)="toggleProductList()">
+        <ion-icon name="chevron-down-outline"></ion-icon>
+      </button>
+    </div>
+    
+    <div class="drawer-body-scroll">
+      <div class="product-list-row" *ngFor="let product of products; trackBy: trackByProductId">
+        <img [src]="product.image" [alt]="product.name" class="row-thumb" />
+        <div class="row-info">
+          <h5>{{ product.name }}</h5>
+          <p class="row-price">Rp {{ product.price | number }}</p>
+        </div>
+        <button type="button" class="btn-row-buy" (click)="buyNow(product)">Beli</button>
+      </div>
+    </div>
+  </div>
+
+  <ion-toolbar class="control-bar-toolbar">
+    <div class="control-bar-layout">
+      <button class="icon-circle-btn btn-shopping-bag" [class.active]="isProductListOpen" (click)="toggleProductList()" aria-label="Buka produk">
+        <ion-icon name="bag-handle"></ion-icon>
+      </button>
+
+      <form (ngSubmit)="sendMessage()" class="chat-input-pill">
+        <ion-input
+          class="custom-room-input"
+          mode="md"
+          placeholder="{{ user ? 'Kirim pesan...' : 'Login untuk mengirim pesan' }}"
+          [(ngModel)]="draftMessage"
+          [disabled]="!user"
+          name="chatMessage">
+        </ion-input>
+      </form>
+
+      <button class="icon-circle-btn btn-submit-message" (click)="sendMessage()" [disabled]="!user">
+        <ion-icon name="paper-plane"></ion-icon>
+      </button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

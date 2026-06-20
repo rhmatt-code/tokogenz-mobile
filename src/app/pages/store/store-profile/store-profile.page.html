@@ -1,0 +1,80 @@
+<ion-header class="ion-no-border figma-top-appbar">
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-button class="appbar-back-btn" (click)="goBack()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="appbar-title-left">Profil Toko</ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="appbar-action-btn">
+        <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="detail-content-wrapper">
+  <div *ngIf="isLoading" class="loading-state ion-text-center">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Memuat data toko...</p>
+  </div>
+
+  <div *ngIf="!isLoading && errorMessage" class="error-state ion-text-center">
+    <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <div *ngIf="!isLoading && storeInfo" class="animate-fade-in">
+    
+    <section class="store-header-section">
+      <div class="store-cover-blur" [style.backgroundImage]="'url(' + (storeInfo.logo_url || 'assets/images/default-avatar.png') + ')'"></div>
+      <div class="store-info-container">
+        <div class="store-logo-box">
+          <img [src]="storeInfo.logo_url || 'assets/images/default-avatar.png'" [alt]="storeInfo.name" />
+        </div>
+        <div class="store-details">
+          <h2>{{ storeInfo.name }}</h2>
+          <p class="store-description">{{ storeInfo.description || 'Tidak ada deskripsi toko.' }}</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider">
+      <h3>Semua Produk</h3>
+      <span>{{ productList.length || 0 }} Produk</span>
+    </div>
+
+    <div class="product-list-container" *ngIf="productList && productList.length > 0">
+      <div class="tablet-container">
+        <ion-grid class="ion-no-padding">
+          <ion-row>
+            <ion-col size="6" size-md="4" size-lg="3" *ngFor="let item of productList">
+              <div class="product-card" (click)="goToProduct(item.id)">
+                <div class="product-img-box">
+                  <img [src]="item.imageUrl" [alt]="item.title" />
+                </div>
+                <div class="product-info">
+                  <h3 class="product-title">{{ item.title }}</h3>
+                  <div class="product-action-row">
+                    <span class="price">{{ formatRupiah(item.price) }}</span>
+                    <button class="btn-buy" (click)="$event.stopPropagation(); goToProduct(item.id)">
+                      <ion-icon name="cart-outline"></ion-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </div>
+
+    <div class="store-empty-state ion-text-center" *ngIf="!productList || productList.length === 0">
+      <ion-icon name="basket-outline"></ion-icon>
+      <h3>Belum Ada Produk</h3>
+      <p>Toko ini belum mengunggah produk apa pun saat ini.</p>
+    </div>
+
+  </div>
+</ion-content>

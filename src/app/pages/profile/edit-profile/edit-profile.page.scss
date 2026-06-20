@@ -1,0 +1,221 @@
+// ====================================================================
+// 1. BASE CONFIGURATION & ION-CONTENT SHADOW DOM
+// ====================================================================
+.edit-profile-content {
+  // Menggunakan step-50 (Otomatis putih/abu di light, hitam pekat di dark)
+  --background: var(--ion-color-step-50, #f4f5f8) !important;
+  background: var(--ion-color-step-50, #f4f5f8) !important;
+
+  &::part(background) { background: var(--ion-color-step-50, #f4f5f8) !important; }
+  &::part(scroll) { background: var(--ion-color-step-50, #f4f5f8) !important; }
+}
+
+// Custom Toolbar Header
+.custom-toolbar {
+  --background: var(--ion-background-color, #ffffff) !important; 
+  --color: var(--ion-text-color, #222428) !important;
+  --border-width: 0;
+
+  ion-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--ion-text-color, #222428) !important;
+    letter-spacing: -0.5px;
+  }
+
+  .btn-save-nav {
+    --color: var(--ion-color-primary, #1E3A8A) !important;
+    font-weight: 700;
+    font-size: 15px;
+    
+    &[disabled] {
+      opacity: 0.4;
+    }
+  }
+}
+
+// ====================================================================
+// 2. AVATAR UPLOAD CONTAINER (DESAIN PREMIUM BUBBLE OVERLAY)
+// ====================================================================
+.edit-avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 32px 0 24px 0;
+
+  .avatar-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    // Ring luar pembungkus avatar menggunakan warna primary transparan
+    background: rgba(var(--ion-color-primary-rgb, "30, 58, 138"), 0.12);
+    padding: 4px;
+    box-shadow: 0 8px 20px rgba(var(--ion-text-color-rgb, "0,0,0"), 0.05);
+
+    .profile-preview-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      background: var(--ion-background-color, #ffffff);
+    }
+
+    .upload-overlay-btn {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 32px;
+      height: 32px;
+      background: var(--ion-color-primary, #1E3A8A);
+      color: var(--ion-color-primary-contrast, #ffffff);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(var(--ion-color-primary-rgb, "30, 58, 138"), 0.3);
+      transition: transform 0.1s ease;
+
+      ion-icon {
+        font-size: 16px;
+      }
+
+      &:active {
+        transform: scale(0.9);
+      }
+    }
+  }
+
+  .upload-hint {
+    font-size: 12px;
+    color: var(--ion-color-step-500, #888888);
+    margin-top: 12px;
+    font-weight: 500;
+    text-align: center;
+  }
+}
+
+// ====================================================================
+// 3. PROFILE FORM BOX & INPUT GROUPS (ANTI-BOCOOR UNTUK DUAL MODE)
+// ====================================================================
+.profile-form-box {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 32px;
+}
+
+.input-group-custom {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .form-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ion-color-step-700, #444444);
+    padding-left: 4px;
+    letter-spacing: -0.1px;
+  }
+
+  // Desain Kontainer Input Bergaya Card Premium
+  .custom-input-item {
+    --background: var(--ion-background-color, #ffffff) !important;
+    --color: var(--ion-text-color, #222428) !important;
+    --border-radius: 14px;
+    --inner-padding-end: 14px;
+    --padding-start: 14px;
+    
+    // Border tipis adaptif untuk mempertegas bentuk kartu di layar gelap
+    border: 1px solid rgba(var(--ion-text-color-rgb, "0,0,0"), 0.06) !important;
+    box-shadow: 0 4px 12px rgba(var(--ion-text-color-rgb, "0,0,0"), 0.01) !important;
+    min-height: 50px;
+
+    // Memaksa Shadow DOM internal ion-item mematuhi peraturan mode
+    &::part(native) {
+      background: var(--ion-background-color, #ffffff) !important;
+      color: var(--ion-text-color, #222428) !important;
+      border-radius: 14px;
+    }
+
+    // Penyelarasan letak ikon inputan
+    .input-icon {
+      color: var(--ion-color-step-400, #a2a4a8);
+      font-size: 20px;
+      margin-right: 12px;
+      
+      &.spacing-top-icon {
+        margin-top: 12px; // Biar pas di atas saat textarea memanjang
+      }
+    }
+
+    // Memaksa elemen inputan bawaan HTML di dalam Shadow DOM agar bersih
+    ion-input, ion-textarea {
+      --padding-top: 12px;
+      --padding-bottom: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ion-text-color, #222428) !important;
+
+      &::part(native) {
+        color: var(--ion-text-color, #222428) !important;
+      }
+    }
+  }
+
+  // Align start untuk textarea agar ikon tetap manis di atas
+  &.align-start {
+    align-items: flex-start;
+  }
+}
+
+// Style khusus untuk inputan Read-Only / Disabled (Alamat Email)
+.read-only-group {
+  .disabled-item {
+    --background: var(--ion-color-step-100, #f4f5f8) !important;
+    opacity: 0.7;
+    border-style: dashed !important; // Membedakan visual item yang dikunci
+
+    &::part(native) {
+      background: var(--ion-color-step-100, #f4f5f8) !important;
+    }
+
+    .input-icon {
+      color: var(--ion-color-step-300, #cbd5e1);
+    }
+  }
+}
+
+// ====================================================================
+// 4. FORCED RE-OVERRIDE KETIKA KELAS .DARK AKTIF (UPGRADE KONTRAS GELAP)
+// ====================================================================
+@mixin force-dark-edit-profile {
+  ion-content {
+    --background: #121212 !important;
+    background: #121212 !important;
+    &::part(background) { background: #121212 !important; }
+    &::part(scroll) { background: #121212 !important; }
+  }
+  .edit-profile-content {
+    --background: #121212 !important;
+    background: #121212 !important;
+  }
+  .custom-input-item {
+    --background: #1e1e1e !important;
+    &::part(native) { background: #1e1e1e !important; }
+  }
+  .read-only-group .disabled-item {
+    --background: #262626 !important;
+    &::part(native) { background: #262626 !important; }
+  }
+  .custom-toolbar .btn-save-nav {
+    --color: #3b82f6 !important; // Biru neon terang agar kontras di topbar gelap
+  }
+}
+
+
+@media (prefers-color-scheme: dark) {
+  @include force-dark-edit-profile;
+}
